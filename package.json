@@ -5,7 +5,7 @@
   "author": "First Last <first.last@example.com>",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon src/app/app.js",
     "start_local_dev": "nodemon src/app/app_local_dev.js"
   },
   "dependencies": {
