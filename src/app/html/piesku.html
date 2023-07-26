@@ -1,1 +1,40 @@
-<div>Hello world</div>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Vedersøvej 26</title>
+        <link href="/app/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+        <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+        <link rel="icon" type="image/x-icon" href="../../favicon/favicon.ico">
+        <link rel="manifest" href="../../favicon/site.webmanifest">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+    </head>
+    <body  onload="beginCycle('stefan')">
+        <script type = "text/javascript" src="/app/js/bootstrap/bootstrap.bundle.min.js"></script>
+        <script type = "text/javascript" src = "/app/js/functions.js"></script>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-lg-3"></div>
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <img style="width: 30em; display: block; margin: auto;" src="/app/img/piesku/IMG_20220417_191025.jpg" id="current_img" />
+                </div>
+                <div class="col-md-3 col-lg-3"></div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-3 col-lg-3"></div>
+                <div style="text-align: center;" class="col-sm-12 col-md-6 col-lg-6">
+                    <button class="btn btn-secondary" onclick="forceCycle('stefan', -1)">&lt;</button>
+                    <button class="btn btn-secondary" onclick="forceCycle('stefan', 1)">&gt;</button>
+                </div>
+                <div class="col-md-3 col-lg-3"></div>
+
+            </div>
+        </div>
+    </body>
+</html>
+
