@@ -1,7 +1,16 @@
-const express = require('express')
-const path = require("path") 
-const app = express()
+// wiki.js - Wiki route module.
 
-app.get("/stefan", function(req,res) {
-    res.sendFile(__dirname + "./html/piesku.html");
+const express = require("express");
+const router = express.Router();
+
+// Home page route.
+router.get("/piesku", function (req, res) {
+    res.sendFile(__dirname + '/html/piesku.html');
 });
+
+// About page route.
+router.get("/about", function (req, res) {
+  res.send("About this wiki");
+});
+
+module.exports = router;
