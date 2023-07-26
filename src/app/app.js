@@ -10,8 +10,9 @@ const fs = require("fs")
 // app.use(express.static(path.join(__dirname, 'app')));
 // app.use(express.static(path.join(__dirname, './css')));
 
-app.get('/', function(req, res){
+const images_array = []
 
+app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
 });
 
