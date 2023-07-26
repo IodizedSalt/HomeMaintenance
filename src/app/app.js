@@ -3,15 +3,9 @@ const app = express()
 const path = require("path") 
 const port = 8000
 const routes = require("./routes")
-const fs = require("fs")
 
-
-// app.use(express.static(path.join(__dirname, '/.', '')));
-// app.use(express.static(path.join(__dirname, 'app')));
-// app.use(express.static(path.join(__dirname, './css')));
-
-const images_array = []
-
+app.use(express.static(path.join(__dirname, '../.', '')));
+    
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
 });
