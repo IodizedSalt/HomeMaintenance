@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Node.js on Docker",
   "author": "First Last <first.last@example.com>",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon src/app/app.js",
     "start_local_dev": "nodemon src/app/app_local_dev.js"

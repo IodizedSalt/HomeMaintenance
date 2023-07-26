@@ -16,10 +16,12 @@ RUN npm install
 # Bundle app source
 COPY /src/app/ ./
 COPY /src/index.html ./
+
+#COPY /src/favicon/ ./favicon/
 #COPY /src/js/ ./
 #COPY /src/css ./
 
 EXPOSE 8000
 
-CMD [ "node", "app.js" ]
+CMD [ "npm", "start" ]
 
