@@ -50,8 +50,7 @@ function beginCycle(image_type){
 
 
 function getImgCount(){
-    const data = { test: "123" };
-    fetch("http://localhost:8000/count", {
+    fetch("http://192.168.1.160:49160/count", {
     method: "POST",
     headers: {
         "Content-Type": "application/json",
