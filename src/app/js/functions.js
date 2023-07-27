@@ -8,8 +8,7 @@ function addElement(){
 // Change to next image
 function forceCycle(image_type, increment_amnt){
     var images = []
-    const img_count = parseInt(sessionStorage.getItem("img_count"))
-    console.log(img_count)
+    const img_count = JSON.parse(sessionStorage.getItem("img_count"))
     // console.log(increment_amnt)
     if(image_type == 'stefan'){
         var file_path_array = document.getElementById('current_img').src.toString().split('/')
@@ -19,7 +18,6 @@ function forceCycle(image_type, increment_amnt){
         if(parseInt(updated_file) > img_count){
             updated_file = 1
         }else if(parseInt(updated_file) <= 0){
-            console.log('oi')
             updated_file = img_count
         }
         updated_file = updated_file.toString() + '.jpg'
@@ -63,7 +61,7 @@ function getImgCount(){
     }).then((response)=> {
         if (response.ok) {
             response.json().then(img_count_res => {
-              sessionStorage.setItem("img_count", img_count_res['file_count'])
+              sessionStorage.setItem("img_count", parseInt(img_count_res['file_count']))
             });
         }
     })
