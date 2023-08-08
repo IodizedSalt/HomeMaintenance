@@ -14,4 +14,10 @@ router.get("/piesku", function (req, res) {
     res.sendFile(__dirname + '/html/piesku.html');
 });
 
+
+// Home page route.
+router.get("/homemaintenance", function (req, res) {
+    res.sendFile(__dirname + '/html/homemaintenance.html');
+});
+
 module.exports = router;

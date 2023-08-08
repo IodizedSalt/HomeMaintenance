@@ -8,7 +8,7 @@ docker -dit run -p 49160:8000 -d  christopher/homemaintenance
 
 Zyxel Router settings:
 
-Network Setting -> Broadband -> ADSL/VDSL/ETHWAN -> Use the following static DNS to Pi address (192.168.1.160)
+Network Setting -> Broadband -> ADSL/VDSL/ETHWAN -> Use the following static DNS to Pi address (192.168.1.160) and disable IPv6
 
 Network Setting -> Home Networking -> Static DHCP ->  Configure Pihole with a static DHCP
 
