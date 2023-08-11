@@ -1,48 +1,59 @@
 {
-    "tasks":
-    {
-        "periodicity":{
-            "weekly":{
-                "tasks": 
-                    {
-                    "1": "Sharpen knives", 
+        "periodicity": {
+            "weekly": {
+                "tasks": {
+                    "1": "Sharpen knives",
                     "2": "Flip compost",
                     "3": "Clean kitchen",
                     "4": "Clean bathroom",
                     "5": "Pull weeds in driveway and garden",
                     "6": "Hoover"
-                    }
+                }
             },
-            "biweekly":
-            {
-                "tasks": 
-                {"1": "Pull weeds in driveway and garden", "2":"Clean stove ventilation/filter", "3":"Dust desk"}
+            "biweekly": {
+                "tasks": {
+                    "1": "Pull weeds in driveway and garden",
+                    "2": "Clean stove ventilation/filter",
+                    "3": "Dust desk"
+                }
             },
-            "monthly":{
-                "tasks": {"1": "Clean/Dust PC"}
+            "monthly": {
+                "tasks": {
+                    "1": "Clean/Dust PC",
+                    "2": "Check/Refill Water purifier"
+                }
             },
-            "bimonthly":{
-                "tasks": {"1":"Deice freezer"}
+            "bimonthly": {
+                "tasks": {
+                    "1": "Deice freezer"
+                }
             },
-            "quarterly":{
-                "tasks": {"1": "Clean gutters", "2":"Clean edges to moisture zones (windows, doors)", "3":"Inspect caulking on windows/Doors", "4":"Sharpen tools"}
+            "quarterly": {
+                "tasks": {
+                    "1": "Clean gutters",
+                    "2": "Clean edges to moisture zones (windows, doors)",
+                    "3": "Inspect caulking on windows/Doors",
+                    "4": "Sharpen tools"
+                }
             },
-            "biannual":{
-                "tasks": {"1":"Clean fridge"}
+            "biannually": {
+                "tasks": {
+                    "1": "Clean fridge"
+                }
             },
-            "yearly":{
-                "tasks": []
+            "yearly": {
+                "tasks": {
+                    "1": "Turn off water main"
+                }
             },
-            "biennial":{
-                "tasks": []
+            "biennially": {
+                "tasks": {}
             }
         },
-        "season-specific":{
+        "season-specific": {
             "spring": [],
             "summer": [],
             "autumn": [],
             "winter": []
         }
-    }
-
 }

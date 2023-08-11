@@ -25,6 +25,18 @@
 //     document.getElementsByTagName("body")[0].appendChild(node)
 // }
 
+// Initial start date that will be forever used to calculate when tasks need to be accomplished
+// ヽ༼ຈل͜ຈ༽ﾉ All hail ISO 8601 ヽ༼ຈل͜ຈ༽ﾉ
+const start_date = new Date("2023-08-11T00:00:00.000Z").toISOString()
+
+// Calculating the Week number of the start date. Even though it is a constant variable and we could just hardcode it as `28`, we still do it dynamically because we can. 
+startDate = new Date((new Date(start_date)).getFullYear(), 0, 1);
+var days = Math.floor((new Date(start_date) - startDate) /
+    (24 * 60 * 60 * 1000));
+const start_date_week_number = Math.ceil(days / 7);
+
+const current_date = new Date().toISOString()
+
 // Change to next image
 function forceCycle(image_type, increment_amnt){
     var images = []
@@ -100,79 +112,140 @@ function getTasks(){
     }).then((response)=> {
         if (response.ok) {
             response.json().then(tasks_list => {
-              sessionStorage.setItem("tasks_list",JSON.stringify(tasks_list))
+            sessionStorage.setItem("tasks_list",JSON.stringify(tasks_list))
+            // fetch("http://192.168.1.160:49160/list-tasks-status", {
+            fetch("http://localhost:8000/list-tasks-status", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                }, body: JSON.stringify({
+                test: "test"
+                })
+                }).then((response)=> {
+                    if (response.ok) {
+                        response.json().then(tasks_list => {
+                            sessionStorage.setItem("tasks_list_status",JSON.stringify(tasks_list))
+                            
+                            var currentDate = new Date();
+                            var startDate = new Date(currentDate.getFullYear(), 0, 1);
+                            var days = Math.floor((currentDate - startDate) /
+                                (24 * 60 * 60 * 1000));
+                            
+                            const week_number = Math.ceil(days / 7);
+                            // var number_of_days_difference = Math.floor((new Date(current_date) - new Date(start_date)) / (1000 * 3600 * 24))
+                            getTasksWeekly(week_number)
+                            getTasksBiWeekly(week_number)
+                            getTasksMonthly(week_number)
+                            getTasksBiMonthly(week_number)
+                            getTasksQuarterly(week_number)
+                            getTasksBiannually(week_number)
+                            getTasksYearly(week_number)
+                            getTasksBiennialy(week_number)
+                        });
+                    }
+                })
             });
         }
-    })
-    // fetch("http://192.168.1.160:49160/list-tasks-status", {
-    fetch("http://localhost:8000/list-tasks-status", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json",
-    }, body: JSON.stringify({
-       test: "test"
-    })
-    }).then((response)=> {
-        if (response.ok) {
-            response.json().then(tasks_list => {
-              sessionStorage.setItem("tasks_list_status",JSON.stringify(tasks_list))
-            });
-        }
-    })
-
-    // Perform the operations to figure out what the tasks for the specific week are, and concatenate past/future tasks in a nice to use interface
-    
-    var currentDate = new Date();
-    var startDate = new Date(currentDate.getFullYear(), 0, 1);
-    var days = Math.floor((currentDate - startDate) /
-        (24 * 60 * 60 * 1000));
-    
-    const weekNumber = Math.ceil(days / 7);
-
-    getTasksWeekly(weekNumber)
-    getTasksBiWeekly(weekNumber)
-    getTasksMonthly(weekNumber)
-    getTasksBiMonthly(weekNumber)
-    getTasksQuarterly(weekNumber)
-    getTasksBiannually(weekNumber)
-    getTasksYearly(weekNumber)
-    getTasksBiennial(weekNumber)
+    })    
 }
 
+// Perform the operations to figure out what the tasks for the specific week are, and concatenate past/future tasks in a nice to use interface
 function getTasksPeriodicity(periodicity){
-    return JSON.parse(sessionStorage.getItem("tasks_list"))['tasks']['periodicity'][periodicity]
+    // console.log(periodicity, JSON.parse(sessionStorage.getItem("tasks_list"))['periodicity'][periodicity]['tasks'])
+    return JSON.parse(sessionStorage.getItem("tasks_list"))['periodicity'][periodicity]['tasks']
 }
 
 
 function getTasksWeekly(current_week_number){
-    // console.log(current_week_number)
     var tasks = getTasksPeriodicity('weekly')
-    console.log(tasks)
-    // console.log(JSON.parse(sessionStorage.getItem("tasks_list"))['tasks']['periodicity'])
+    // Weekly tasks appear every week
+    appendTaskToDom(tasks)
 }
-
 
 function getTasksBiWeekly(current_week_number){
     var tasks = getTasksPeriodicity('biweekly')
-    console.log(tasks)
+    // Weekly tasks appear every second week
+    if((current_week_number - start_date_week_number) % 2 === 0){
+        appendTaskToDom(tasks)
+    }
+    // console.log(current_date)
+    // console.log(start_date)
+    // console.log('date diff' ,
+    // start_date
+    // if(current_week_number % 2 === 0){
+        // appendTaskToDom(tasks)
+    // }
 }
 function getTasksMonthly(current_week_number){
     var tasks = getTasksPeriodicity('monthly')
-    console.log(tasks)
+        // Weekly tasks appear every fourth week   
+        if((current_week_number - start_date_week_number) % 4 === 0){
+            appendTaskToDom(tasks)
+        }
 }
 function getTasksBiMonthly(current_week_number){
-    
+    var tasks = getTasksPeriodicity('bimonthly')
+    // Weekly tasks appear every eighth week
+
+    if((current_week_number - start_date_week_number) % 8 === 0){
+        appendTaskToDom(tasks)
+    }
 }
 function getTasksQuarterly(current_week_number){
-    
+    var tasks = getTasksPeriodicity('quarterly')
+    if((current_week_number - start_date_week_number) % 13 === 0){
+        appendTaskToDom(tasks)
+    }
+
 }
 function getTasksBiannually(current_week_number){
-    
+    var tasks = getTasksPeriodicity('biannually')
+    if((current_week_number - start_date_week_number) % 26 === 0){
+        appendTaskToDom(tasks)
+    }
+
 }
 function getTasksYearly(current_week_number){
-    
+    var tasks = getTasksPeriodicity('yearly')
+    if((current_week_number - start_date_week_number) % 52 === 0){
+        if(new Date(current_date).getFullYear() - new Date(start_date).getFullYear() >0){
+                appendTaskToDom(tasks)
+
+        }
+    }
+
 }
-function getTasksBiennial(current_week_number){
+function getTasksBiennialy(current_week_number) {
+    var tasks = getTasksPeriodicity('biennially')
+    // console.log(new Date(start_date).getFullYear())
+    if ((current_week_number - start_date_week_number) % 52 === 0) {
+        if ((new Date(current_date).getFullYear() - new Date(start_date).getFullYear()) % 2 === 0) {
+            appendTaskToDom(tasks)
+
+        }
+    }
+}
+
+function appendTaskToDom(task_list){
+    Object.entries(task_list).forEach(task =>{
+        const [task_id, task_text] = task;
+        const node = document.createElement("div")
+        const textnode = document.createTextNode(task_text);
+        node.appendChild(textnode);
+        document.getElementById("current_tasks").appendChild(node)
+    })
+}
+
+function appendFutureTaskToDom(task_list){
+
+
+    Object.entries(task_list).forEach(task =>{
+        const [task_id, task_text] = task;
+        const node = document.createElement("div")
+        const textnode = document.createTextNode(task_text);
+        node.appendChild(textnode);
+        document.getElementById("upcoming_tasks").appendChild(node)
+    })
 }
     
     
