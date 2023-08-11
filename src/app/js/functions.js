@@ -17,13 +17,13 @@
 //     })
 // }
 
-
-// function addElement(){
-//     const node = document.createElement("div")
-//     const textnode = document.createTextNode("Clicked");
-//     node.appendChild(textnode);
-//     document.getElementsByTagName("body")[0].appendChild(node)
-// }
+const ENV_TYPE = document.currentScript.getAttribute('env_type')
+const URL_PREFIX = ""
+if(ENV_TYPE == 'LOCAL'){
+    const URL_PREFIX = 'http://localhost:8000'
+}else if(ENV_TYPE == 'DEV'){
+    const URL_PREFIX = 'http://192.168.1.160'
+}
 
 // Initial start date that will be forever used to calculate when tasks need to be accomplished
 // ヽ༼ຈل͜ຈ༽ﾉ All hail ISO 8601 ヽ༼ຈل͜ຈ༽ﾉ
@@ -82,8 +82,7 @@ function beginCycle(image_type){
 
 
 function getImgCount(){
-    fetch("http://localhost:8000/count", {
-    // fetch("http://192.168.1.160:49160/count", {
+    fetch(URL_PREFIX + "/count", {
     method: "POST",
     headers: {
         "Content-Type": "application/json",
@@ -102,7 +101,7 @@ function getImgCount(){
 function getTasks(){
     // Fetch the necessary data
     // fetch("http://192.168.1.160:49160/list-tasks", {
-    fetch("http://localhost:8000/list-tasks", {
+    fetch(URL_PREFIX + "/list-tasks", {
     method: "POST",
     headers: {
         "Content-Type": "application/json",
@@ -113,8 +112,9 @@ function getTasks(){
         if (response.ok) {
             response.json().then(tasks_list => {
             sessionStorage.setItem("tasks_list",JSON.stringify(tasks_list))
+            fetch(URL_PREFIX + "/list-tasks-status", {
             // fetch("http://192.168.1.160:49160/list-tasks-status", {
-            fetch("http://localhost:8000/list-tasks-status", {
+            // fetch("http://localhost:8000/list-tasks-status", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
