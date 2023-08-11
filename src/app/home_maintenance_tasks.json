@@ -5,16 +5,16 @@
                     "1": "Sharpen knives",
                     "2": "Flip compost",
                     "3": "Clean kitchen",
-                    "4": "Clean bathroom",
-                    "5": "Pull weeds in driveway and garden",
-                    "6": "Hoover"
+                    "4": "Pull weeds in driveway and garden",
+                    "5": "Hoover"
                 }
             },
             "biweekly": {
                 "tasks": {
                     "1": "Pull weeds in driveway and garden",
                     "2": "Clean stove ventilation/filter",
-                    "3": "Dust desk"
+                    "3": "Dust desk",
+                    "4": "Clean bathroom"
                 }
             },
             "monthly": {
