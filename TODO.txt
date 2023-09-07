@@ -1,0 +1,15 @@
+- When clicking buttons, save task to JSON
+- Add some validation to clicking button/saving task with timestamping
+
+- Show upcoming tasks
+
+- Add input to record Electricity/Gas meters
+- Display Electricity/Gas meters
+
+- Show history log of completed tasks
+- Embed monthly payments/budget from .xlsx, and hide it behind some validation
+
+- Randomize piesku photo number + add input to load specific photo number
+    - Gallery preview images at the top/on the side?
+
+- CSS...

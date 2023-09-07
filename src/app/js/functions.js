@@ -159,14 +159,14 @@ function getTasksPeriodicity(periodicity){
 function getTasksWeekly(current_week_number){
     var tasks = getTasksPeriodicity('weekly')
     // Weekly tasks appear every week
-    appendTaskToDom(tasks)
+    appendTaskToDom('weekly', tasks)
 }
 
 function getTasksBiWeekly(current_week_number){
     var tasks = getTasksPeriodicity('biweekly')
     // Weekly tasks appear every second week
     if((current_week_number - start_date_week_number) % 2 === 0){
-        appendTaskToDom(tasks)
+        appendTaskToDom('biweekly', tasks)
     }
     // console.log(current_date)
     // console.log(start_date)
@@ -180,7 +180,7 @@ function getTasksMonthly(current_week_number){
     var tasks = getTasksPeriodicity('monthly')
         // Weekly tasks appear every fourth week   
         if((current_week_number - start_date_week_number) % 4 === 0){
-            appendTaskToDom(tasks)
+            appendTaskToDom('monthly', tasks)
         }
 }
 function getTasksBiMonthly(current_week_number){
@@ -188,20 +188,20 @@ function getTasksBiMonthly(current_week_number){
     // Weekly tasks appear every eighth week
 
     if((current_week_number - start_date_week_number) % 8 === 0){
-        appendTaskToDom(tasks)
+        appendTaskToDom('bimonthly', tasks)
     }
 }
 function getTasksQuarterly(current_week_number){
     var tasks = getTasksPeriodicity('quarterly')
     if((current_week_number - start_date_week_number) % 13 === 0){
-        appendTaskToDom(tasks)
+        appendTaskToDom('quarterly', tasks)
     }
 
 }
 function getTasksBiannually(current_week_number){
     var tasks = getTasksPeriodicity('biannually')
     if((current_week_number - start_date_week_number) % 26 === 0){
-        appendTaskToDom(tasks)
+        appendTaskToDom('biannually', tasks)
     }
 
 }
@@ -209,7 +209,7 @@ function getTasksYearly(current_week_number){
     var tasks = getTasksPeriodicity('yearly')
     if((current_week_number - start_date_week_number) % 52 === 0){
         if(new Date(current_date).getFullYear() - new Date(start_date).getFullYear() >0){
-                appendTaskToDom(tasks)
+                appendTaskToDom('yearly', tasks)
 
         }
     }
@@ -220,19 +220,30 @@ function getTasksBiennialy(current_week_number) {
     // console.log(new Date(start_date).getFullYear())
     if ((current_week_number - start_date_week_number) % 52 === 0) {
         if ((new Date(current_date).getFullYear() - new Date(start_date).getFullYear()) % 2 === 0) {
-            appendTaskToDom(tasks)
+            appendTaskToDom('biennially', tasks)
 
         }
     }
 }
 
-function appendTaskToDom(task_list){
+function appendTaskToDom(periodicity, task_list){
+    console.log(task_list)
     Object.entries(task_list).forEach(task =>{
         const [task_id, task_text] = task;
         const node = document.createElement("div")
-        const textnode = document.createTextNode(task_text);
-        node.appendChild(textnode);
+        node.className = 'task_element'
+        const button = document.createElement("button");
+        button.className = "btn btn-primary"
+        button.innerHTML = task_text
+        button.setAttribute('task_id', task_id)
+        button.setAttribute('task_periodicity', periodicity)
+        button.onclick = function(){
+            console.log(task_id)
+            console.log(periodicity)
+        }
+        node.appendChild(button);
         document.getElementById("current_tasks").appendChild(node)
+        document.getElementById("current_tasks").appendChild(document.createElement("br"))
     })
 }
 

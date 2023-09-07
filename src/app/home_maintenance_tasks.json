@@ -6,7 +6,9 @@
                     "2": "Flip compost",
                     "3": "Clean kitchen",
                     "4": "Pull weeds in driveway and garden",
-                    "5": "Hoover"
+                    "5": "Hoover",
+                    "6": "Sweep path front of house",
+                    "7": "Record Electricity/Gas meters"
                 }
             },
             "biweekly": {
