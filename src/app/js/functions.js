@@ -72,7 +72,7 @@ function getImgCount() {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            'Access-Control-Allow-Origin': 'http://192.168.1.160'
+            'Access-Control-Allow-Origin': '*'
         },
         mode: 'cors',
         body: JSON.stringify({
@@ -92,7 +92,7 @@ function getTasks() {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            'Access-Control-Allow-Origin': 'http://192.168.1.160'
+            'Access-Control-Allow-Origin': '*'
         },
         mode: 'cors',
         body: JSON.stringify({
@@ -106,7 +106,7 @@ function getTasks() {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        'Access-Control-Allow-Origin': 'http://192.168.1.160'
+                        'Access-Control-Allow-Origin': '*'
                     },
                     mode: 'cors',
                     body: JSON.stringify({
@@ -253,7 +253,7 @@ function getText() {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            'Access-Control-Allow-Origin': 'http://192.168.1.160'
+            'Access-Control-Allow-Origin': '*'
         },
         mode: 'cors',
         body: JSON.stringify({
@@ -281,7 +281,7 @@ function saveText() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                'Access-Control-Allow-Origin': 'http://192.168.1.160'
+                'Access-Control-Allow-Origin': '*'
             },
             mode: 'cors',
             body: JSON.stringify({
