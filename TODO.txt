@@ -1,3 +1,5 @@
+- Text pad for sharing text/links
+
 - When clicking buttons, save task to JSON
 - Add some validation to clicking button/saving task with timestamping
 
