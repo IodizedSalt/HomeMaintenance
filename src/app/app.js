@@ -7,7 +7,9 @@ const fs = require("fs")
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../.', '')));
-    
+app.set("view_engine", "ejs")
+app.set("views", path.join(__dirname,  '../.')); // Set the directory where your EJS templates are stored
+
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
 });
@@ -52,10 +54,19 @@ app.post('/list-tasks-status', (req, res) => {
         })
 });
 
+const command =  process.env.SCRIPT_TYPE
 
 app.use("/routes", routes)
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, function(){
+    if(command == 'start'){
+        console.log("IF YOU ARE DEVELOPING LOCALLY, YOU'VE RUN THE WRONG COMMAND (npm run start_local_dev) :)\n" + `Example app listening on port ${port}!`)
+    }else if(command == 'start_local_dev'){
+        console.log(`Example app listening on port ${port}!`)
+    }else{
+        console.log("Please use one of the npm commands (start, start_local_dev) \n" + `Example app listening on port ${port}!`)
+    }
+})
+//console.log(`Example app listening on port ${port}!`))
 
 
 // Example post

@@ -18,11 +18,15 @@
 // }
 
 const ENV_TYPE = document.currentScript.getAttribute('env_type')
-const URL_PREFIX = ""
+// const URL_PREFIX = ""
+// const API_PREFIX = ""
+// const ENV_TYPE = 'LOCAL'
 if(ENV_TYPE == 'LOCAL'){
-    const URL_PREFIX = 'http://localhost:8000'
+    var API_PREFIX = 'http://localhost:8000'
+    var URL_PREFIX = 'http://localhost:8000/routes'
 }else if(ENV_TYPE == 'DEV'){
-    const URL_PREFIX = 'http://192.168.1.160'
+    var API_PREFIX = 'http://192.168.1.160'
+    var URL_PREFIX = 'http://192.168.1.160/routes'
 }
 
 // Initial start date that will be forever used to calculate when tasks need to be accomplished
@@ -82,7 +86,7 @@ function beginCycle(image_type){
 
 
 function getImgCount(){
-    fetch(URL_PREFIX + "/count", {
+    fetch(API_PREFIX + "/count", {
     method: "POST",
     headers: {
         "Content-Type": "application/json",
@@ -101,7 +105,7 @@ function getImgCount(){
 function getTasks(){
     // Fetch the necessary data
     // fetch("http://192.168.1.160:49160/list-tasks", {
-    fetch(URL_PREFIX + "/list-tasks", {
+    fetch(API_PREFIX + "/list-tasks", {
     method: "POST",
     headers: {
         "Content-Type": "application/json",
@@ -112,7 +116,7 @@ function getTasks(){
         if (response.ok) {
             response.json().then(tasks_list => {
             sessionStorage.setItem("tasks_list",JSON.stringify(tasks_list))
-            fetch(URL_PREFIX + "/list-tasks-status", {
+            fetch(API_PREFIX + "/list-tasks-status", {
             // fetch("http://192.168.1.160:49160/list-tasks-status", {
             // fetch("http://localhost:8000/list-tasks-status", {
                 method: "POST",
@@ -226,8 +230,21 @@ function getTasksBiennialy(current_week_number) {
     }
 }
 
+function completeTask(task_id, periodicity){
+    console.log(task_id, periodicity)
+    var user_name = prompt("Who are you?")
+    if(user_name == null){
+        // Cancel click
+        return
+    }else if(user_name.toUpperCase() == 'COM' || user_name.toUpperCase() == 'ELLE'){
+        console.log('success')
+        // TODO: register datetime and mark task as completed
+    }else{
+        location.href = URL_PREFIX + '/error'
+    }
+}
+
 function appendTaskToDom(periodicity, task_list){
-    console.log(task_list)
     Object.entries(task_list).forEach(task =>{
         const [task_id, task_text] = task;
         const node = document.createElement("div")
@@ -238,8 +255,7 @@ function appendTaskToDom(periodicity, task_list){
         button.setAttribute('task_id', task_id)
         button.setAttribute('task_periodicity', periodicity)
         button.onclick = function(){
-            console.log(task_id)
-            console.log(periodicity)
+            completeTask(task_id, periodicity)    
         }
         node.appendChild(button);
         document.getElementById("current_tasks").appendChild(node)
