@@ -8,8 +8,10 @@ const cors = require('cors');
 
 app.use(express.json());
 app.use(cors({
-    origin: ['http://localhost:3000','http://localhost:8000', 'http://192.168.1.160:49160'], // Replace with your allowed origin
-    methods: ['GET', 'POST'], // Specify the HTTP methods you want to allow
+    // origin: ['http://localhost:3000','http://localhost:8000', 'http://192.168.1.160:49160'] // Replace with your allowed origin
+    origin: 'http://192.168.1.160:49160',
+    // Replace with your allowed origin
+    // methods: ['GET', 'POST'], // Specify the HTTP methods you want to allow
   }));
 app.use(express.static(path.join(__dirname, '../.', '')));
 app.set("view_engine", "ejs")
