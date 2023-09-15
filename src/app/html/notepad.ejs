@@ -14,13 +14,21 @@
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
     </head>
-    <body onload="getTasks()">
+    <body onload="getText()">
         <script type = "text/javascript" src="/app/js/bootstrap/bootstrap.bundle.min.js"></script>
-        <script type = "text/javascript" src = "/app/js/functions.js"  env_type="<%= env_type %>"></script>
-
-        <div id="current_tasks" style="text-align: center;">This week's tasks</div>
-        <br/>
-        <div id="upcoming_tasks" style="text-align: center;">Upcoming tasks</div>
+        <script type = "text/javascript" src = "/app/js/functions.js" env_type="<%= env_type %>"></script>
+            <div>
+                Notepad
+                <div id="notepad">
+                    <!-- TODO: work on onblur event so that it doesnt double save with button click -->
+                    <!-- <textarea style="width: 20em; height: 20em;" id='notepad_text' onblur="saveText()"></textarea> -->
+                    <textarea style="width: 20em; height: 20em;" id='notepad_text' ></textarea>
+                    <br />
+                    <buton class="btn btn-primary" id="saveTextButton" onclick="saveText()">Save</button>
+                </div>
+            </div>
+            <div style="display: none;" id="save_success_message"> Saved successfully </div>
+            <div style="display: none;" id="save_error_message"> ERROR saving </div>
     </body>
 </html>
 

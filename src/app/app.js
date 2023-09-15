@@ -54,6 +54,31 @@ app.post('/list-tasks-status', (req, res) => {
         })
 });
 
+// Get txt of notepad post
+app.post('/get-notepad', (req, res) => {
+    // test123
+    console.log(req.body)
+    // send some response
+    fs.readFile(__dirname + '/notepad.txt', (err, text) => {
+        res.send(text)
+        })
+});
+// Get txt of notepad post
+app.post('/save-notepad', (req, res) => {
+    // test123
+    console.log(req.body)
+    // send some response
+    fs.writeFile(__dirname + '/notepad.txt', req.body['notepad_text'], (err) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send("Error writing to the file.");
+        }
+
+        console.log("File has been written successfully.");
+        res.send({response_text: "File has been written successfully.", notepad_text: req.body['notepad_text']});
+    });
+});
+
 const command =  process.env.SCRIPT_TYPE
 
 app.use("/routes", routes)

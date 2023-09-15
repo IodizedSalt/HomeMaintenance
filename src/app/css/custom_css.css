@@ -1,0 +1,26 @@
+#save_success_message {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #4CAF50; /* Green background color */
+    color: #FFFFFF; /* White text color */
+    text-align: center;
+    padding: 10px;
+    opacity: 1;
+    transition: opacity 1s ease; /* Add a CSS transition for opacity */
+}
+#save_error_message {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: red; /* Green background color */
+    color: #FFFFFF; /* White text color */
+    text-align: center;
+    padding: 10px;
+    opacity: 1;
+    transition: opacity 1s ease; /* Add a CSS transition for opacity */
+}

@@ -19,20 +19,24 @@ if(command == 'start'){
 }
 
 
-// Home page route.
+// Dog
 router.get("/piesku", function (req, res) {
-    console.log(env_type)
     res.render(__dirname + '/html/piesku.ejs', {env_type});
 });
 
+// notepad
+router.get("/notepad", function (req, res) {
+    res.render(__dirname + '/html/notepad.ejs', {env_type});
+});
 
-// Home page route.
+
+// house maintenance tasks.
 router.get("/homemaintenance", function (req, res) {
     res.render(__dirname + '/html/homemaintenance.ejs', {env_type});
 });
 
 
-// Home page route.
+// error route.
 router.get("/error", function (req, res) {
     res.sendFile(__dirname + '/img/blocked/PageBlocked.png');
 });

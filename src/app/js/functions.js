@@ -274,8 +274,76 @@ function appendFutureTaskToDom(task_list){
         document.getElementById("upcoming_tasks").appendChild(node)
     })
 }
+
+function getText(){
+    fetch(API_PREFIX + "/get-notepad", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        }, body: JSON.stringify({
+           test: "test"
+        })
+        }).then((response)=> {
+            if (response.ok) {
+                response.text().then(notepad_text =>{
+                    console.log(notepad_text)
+                    document.getElementById("notepad_text").value = notepad_text
+                    sessionStorage.setItem("notepad_text", notepad_text)
+                })
+                // response.json().then(notepad_text => {
+                //   sessionStorage.setItem("notepad_text", notepad_text)
+                // });
+            }
+        })  
+}
     
-    
+var saveInProgress = false
+function saveText(){
+    console.log(saveInProgress)
+    if(!saveInProgress){
+        var notepad_text_payload = document.getElementById("notepad_text").value
+       
+        saveInProgress = true
+        fetch(API_PREFIX + "/save-notepad", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            }, body: JSON.stringify({
+                notepad_text: notepad_text_payload
+            })
+        }).then((response) => {
+            if (response.ok) {
+                document.getElementById("save_success_message").style.display = 'block'
+                setTimeout(function () {
+                    document.getElementById("save_success_message").style.display = 'none'
+                }, 3000)
+                response.json().then(response => {
+                    console.log(response)
+                    document.getElementById("notepad_text").value = response['notepad_text']
+                    // sessionStorage.setItem("notepad_text", response['notepad_text'])
+                    saveInProgress = false
+                })
+                // response.json().then(notepad_text => {
+                //   sessionStorage.setItem("notepad_text", notepad_text)
+                // });
+            }else if (!response.ok){
+                saveInProgress = false
+                document.getElementById("save_error_message").style.display = 'block'
+                setTimeout(function () {
+                    document.getElementById("save_error_message").style.display = 'none'
+                }, 3000)
+            }
+        }).catch(error =>{
+            saveInProgress = false
+            document.getElementById("save_error_message").style.display = 'block'
+            setTimeout(function () {
+                document.getElementById("save_error_message").style.display = 'none'
+            }, 3000)
+        })  
+    }
+
+}
+
 
 
 
