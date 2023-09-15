@@ -1,24 +1,24 @@
 // Example Post
-function examplePost() {
-    fetch("http://localhost:8000/some-api-endpoint", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            'Access-Control-Allow-Origin': '*'
-        },
-        mode: 'cors',
-        body: JSON.stringify({
-            test: "test123"
-        })
-    }).then((response) => {
-        if (response.ok) {
-            response.json().then(jsonresponse => {
-                // 'asdf'
-                console.log(jsonresponse);
-            });
-        }
-    });
-}
+// function examplePost() {
+//     fetch("http://localhost:8000/some-api-endpoint", {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//             'Access-Control-Allow-Origin': '*'
+//         },
+//         mode: 'cors',
+//         body: JSON.stringify({
+//             test: "test123"
+//         })
+//     }).then((response) => {
+//         if (response.ok) {
+//             response.json().then(jsonresponse => {
+//                 // 'asdf'
+//                 console.log(jsonresponse);
+//             });
+//         }
+//     });
+// }
 
 const ENV_TYPE = document.currentScript.getAttribute('env_type');
 
@@ -26,9 +26,10 @@ if (ENV_TYPE == 'LOCAL') {
     var API_PREFIX = 'http://localhost:8000';
     var URL_PREFIX = 'http://localhost:8000/routes';
 } else if (ENV_TYPE == 'DEV') {
-    var API_PREFIX = 'http://192.168.1.160';
-    var URL_PREFIX = 'http://192.168.1.160/routes';
+    var API_PREFIX = 'http://192.168.1.160:49160';
+    var URL_PREFIX = 'http://192.168.1.160:49160/routes';
 }
+console.log(URL_PREFIX)
 
 const start_date = new Date("2023-08-11T00:00:00.000Z").toISOString();
 startDate = new Date((new Date(start_date)).getFullYear(), 0, 1);
