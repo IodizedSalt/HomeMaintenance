@@ -4,7 +4,7 @@ function examplePost() {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            'Access-Control-Allow-Origin': 'http://192.168.1.160'
+            'Access-Control-Allow-Origin': '*'
         },
         mode: 'cors',
         body: JSON.stringify({
