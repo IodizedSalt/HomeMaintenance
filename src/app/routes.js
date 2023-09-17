@@ -36,6 +36,11 @@ router.get("/homemaintenance", function (req, res) {
 });
 
 
+// Storskrald
+router.get("/storskrald", function (req, res) {
+    res.render(__dirname + '/html/storskrald.ejs', {env_type});
+});
+
 // error route.
 router.get("/error", function (req, res) {
     res.sendFile(__dirname + '/img/blocked/PageBlocked.png');
