@@ -30,7 +30,7 @@ app.post('/count', (req, res) => {
     var jpg_count = files.filter(ext => ext.split('.').splice(-1) == 'jpg');
     options['file_count'] = jpg_count.length;
     var count = jpg_count.length;
-    fs.writeFile(__dirname + '/data.json', JSON.stringify(options), (err) => {
+    fs.writeFile(__dirname + '/data/misc_data.json', JSON.stringify(options), (err) => {
       if (err) throw err;
     });
     res.json(options);

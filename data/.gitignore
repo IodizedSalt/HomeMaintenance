@@ -1,5 +1,6 @@
 home_maintenance_tasks.json
 home_maintenance_tasks_status.json
 notepad.txt
+misc_data.json
 
 !.gitignore
