@@ -39,7 +39,7 @@ app.post('/count', (req, res) => {
 
 app.post('/list-tasks', (req, res) => {
   console.log(req.body);
-  fs.readFile(__dirname + '/home_maintenance_tasks.json', (err, tasks) => {
+  fs.readFile(__dirname + '/data/home_maintenance_tasks.json', (err, tasks) => {
     console.log(JSON.parse(tasks));
     const tasks_list = JSON.parse(tasks);
     var options = {'asdf': 'asdf'};
@@ -49,7 +49,7 @@ app.post('/list-tasks', (req, res) => {
 
 app.post('/list-tasks-status', (req, res) => {
   console.log(req.body);
-  fs.readFile(__dirname + '/home_maintenance_tasks_status.json', (err, tasks) => {
+  fs.readFile(__dirname + '/data/home_maintenance_tasks_status.json', (err, tasks) => {
     console.log(JSON.parse(tasks));
     const tasks_list_status = JSON.parse(tasks);
     res.json(tasks_list_status);
@@ -58,14 +58,14 @@ app.post('/list-tasks-status', (req, res) => {
 
 app.post('/get-notepad', (req, res) => {
   console.log(req.body);
-  fs.readFile(__dirname + '/notepad.txt', (err, text) => {
+  fs.readFile(__dirname + '/data/notepad.txt', (err, text) => {
     res.send(text);
   });
 });
 
 app.post('/save-notepad', (req, res) => {
   console.log(req.body);
-  fs.writeFile(__dirname + '/notepad.txt', req.body['notepad_text'], (err) => {
+  fs.writeFile(__dirname + '/data/notepad.txt', req.body['notepad_text'], (err) => {
     if (err) {
       console.error(err);
       return res.status(500).send("Error writing to the file.");
