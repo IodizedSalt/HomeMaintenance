@@ -1,34 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Vedersøvej 26</title>
-        <link href="/app/css/bootstrap/bootstrap.min.css" rel="stylesheet">
-        <link href="/app/css/custom_css.css" rel="stylesheet">
-        <link rel="apple-touch-icon" sizes="180x180" href="/app/favicon/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/app/favicon/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/app/favicon/favicon-16x16.png">
-        <link rel="icon" type="image/x-icon" href="/app/favicon/favicon.ico">
-        <link rel="manifest" href="/app/favicon/site.webmanifest">
-        <meta name="msapplication-TileColor" content="#da532c">
-        <meta name="theme-color" content="#ffffff">
-    </head>
-    <body onload="getText()">
-        <script type = "text/javascript" src="/app/js/bootstrap/bootstrap.bundle.min.js"></script>
-        <script type = "text/javascript" src = "/app/js/functions.js" env_type="<%= env_type %>"></script>
-            <div>
-                Notepad
-                <div id="notepad">
-                    <!-- TODO: work on onblur event so that it doesnt double save with button click -->
-                    <!-- <textarea style="width: 20em; height: 20em;" id='notepad_text' onblur="saveText()"></textarea> -->
-                    <textarea style="width: 20em; height: 20em;" id='notepad_text' ></textarea>
-                    <br />
-                    <buton class="btn btn-primary" id="saveTextButton" onclick="saveText()">Save</button>
-                </div>
-            </div>
-            <div style="display: none;" id="save_success_message"> Saved successfully </div>
-            <div style="display: none;" id="save_error_message"> ERROR saving </div>
-    </body>
-</html>
 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vedersøvej 26</title>
+    <link href="/app/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="/app/css/custom_css.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="/app/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/app/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/app/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="/app/favicon/favicon.ico">
+    <link rel="manifest" href="/app/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<a href="/">
+    <img src="/app/img/misc/android-chrome-512x512.png" style="max-width: 50px; margin: 2em 0em 0em 2em;" alt="Home" class="home-icon">
+</a>
+
+
+<body onload="getText()">
+    <script type="text/javascript" src="/app/js/bootstrap/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/app/js/functions.js" env_type="<%= env_type %>"></script>
+    <div style="margin-top: 3em;">
+
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <h4>Notepad</h4>
+        </div>
+        <div class="h-100 d-flex align-items-center justify-content-center"
+            style="width: 80%; margin: 0 10%; height: 80%;">
+            <div id="notepad" style="width: 80%;">
+                <!-- TODO: work on onblur event so that it doesnt double save with button click -->
+                <textarea style="width: 100%; height: 20em;" id='notepad_text'></textarea>
+                <br />
+                <buton class="btn btn-primary h-100 d-flex align-items-center justify-content-center"
+                    id="saveTextButton" onclick="saveText()">Save</button>
+            </div>
+        </div>
+    </div>
+    <div style="display: none;" id="save_success_message"> Saved successfully </div>
+    <div style="display: none;" id="save_error_message"> ERROR saving </div>
+</body>
+
+</html>

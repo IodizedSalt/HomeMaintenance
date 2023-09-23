@@ -5,8 +5,8 @@
   "author": "First Last <first.last@example.com>",
   "main": "app.js",
   "scripts": {
-    "start": "cross-env SCRIPT_TYPE=start nodemon src/app/app.js",
-    "start_local_dev": "cross-env SCRIPT_TYPE=start_local_dev nodemon src/app/app.js"
+    "start": "cross-env SCRIPT_TYPE=start nodemon --ignore ./src/app/data/ src/app/app.js",
+    "start_local_dev": "cross-env SCRIPT_TYPE=start_local_dev nodemon --ignore ./src/app/data/ src/app/app.js"
   },
   "dependencies": {
     "bootstrap": "^5.3.1",

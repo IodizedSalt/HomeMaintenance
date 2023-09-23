@@ -31,12 +31,13 @@ if (ENV_TYPE == 'LOCAL') {
 }
 console.log(URL_PREFIX)
 
+// Initial start date that will be forever used to calculate when tasks need to be accomplished
+// ヽ༼ຈل͜ຈ༽ﾉ All hail ISO 8601 ヽ༼ຈل͜ຈ༽ﾉ
 const start_date = new Date("2023-08-11T00:00:00.000Z").toISOString();
 startDate = new Date((new Date(start_date)).getFullYear(), 0, 1);
 var days = Math.floor((new Date(start_date) - startDate) /
     (24 * 60 * 60 * 1000));
 const start_date_week_number = Math.ceil(days / 7);
-
 const current_date = new Date().toISOString();
 
 function forceCycle(image_type, increment_amnt) {
@@ -59,7 +60,6 @@ function forceCycle(image_type, increment_amnt) {
         file_path_array.pop();
         file_path_array.push(updated_file.toString());
         var new_file = file_path_array.join('/');
-        console.log(new_file);
         document.getElementById('current_img').src = new_file;
     }
 }
@@ -97,48 +97,28 @@ function getTasks() {
         },
         mode: 'cors',
         body: JSON.stringify({
-            test: "test"
+            current_week_number: getCurrentWeekNumber()
         })
     }).then((response) => {
         if (response.ok) {
             response.json().then(tasks_list => {
                 sessionStorage.setItem("tasks_list", JSON.stringify(tasks_list));
-                fetch(API_PREFIX + "/list-tasks-status", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        'Access-Control-Allow-Origin': '*'
-                    },
-                    mode: 'cors',
-                    body: JSON.stringify({
-                        test: "test"
-                    })
-                }).then((response) => {
-                    if (response.ok) {
-                        response.json().then(tasks_list => {
-                            sessionStorage.setItem("tasks_list_status", JSON.stringify(tasks_list));
-                            var currentDate = new Date();
-                            var startDate = new Date(currentDate.getFullYear(), 0, 1);
-                            var days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
-                            const week_number = Math.ceil(days / 7);
-                            getTasksWeekly(week_number);
-                            getTasksBiWeekly(week_number);
-                            getTasksMonthly(week_number);
-                            getTasksBiMonthly(week_number);
-                            getTasksQuarterly(week_number);
-                            getTasksBiannually(week_number);
-                            getTasksYearly(week_number);
-                            getTasksBiennialy(week_number);
-                        });
-                    }
-                });
+                const week_number = getCurrentWeekNumber()
+                getTasksWeekly(week_number);
+                getTasksBiWeekly(week_number);
+                getTasksMonthly(week_number);
+                getTasksBiMonthly(week_number);
+                getTasksQuarterly(week_number);
+                getTasksBiannually(week_number);
+                getTasksYearly(week_number);
+                getTasksBiennialy(week_number);
             });
         }
     });
 }
 
 function getTasksPeriodicity(periodicity) {
-    return JSON.parse(sessionStorage.getItem("tasks_list"))['periodicity'][periodicity]['tasks'];
+    return JSON.parse(sessionStorage.getItem("tasks_list"))[periodicity];
 }
 
 function getTasksWeekly(current_week_number) {
@@ -206,39 +186,106 @@ function getTasksBiennialy(current_week_number) {
     }
 }
 
-function completeTask(task_id, periodicity) {
-    console.log(task_id, periodicity);
-    var user_name = prompt("Who are you?");
+function getCurrentWeekNumber(){
     
+    var currentDate = new Date();
+    var startDate = new Date(currentDate.getFullYear(), 0, 1);
+    var days = Math.floor((currentDate - startDate) /
+        (24 * 60 * 60 * 1000));
+    
+    var weekNumber = Math.ceil(days / 7);
+    return weekNumber
+}
+
+function completeTask(task_id, periodicity) {
+    var user_name = prompt("Who are you?");
+
+    var week_number = getCurrentWeekNumber()
     if (user_name == null) {
         return; // Cancel click
-    } else if (user_name.toUpperCase() == 'COM' || user_name.toUpperCase() == 'ELLE') {
-        console.log('success');
-        // TODO: register datetime and mark task as completed
+    } else if (user_name.toUpperCase() == 'COM' || user_name.toUpperCase() == '4414') { // Mis wants numbers instead
+        fetch(API_PREFIX + "/complete-task", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                'Access-Control-Allow-Origin': '*'
+            },
+            mode: 'cors',
+            body: JSON.stringify({
+                "week_number": week_number, 
+                "task_id": task_id, 
+                "periodicity": periodicity,
+                "completed_by": user_name,
+                "completed_time": new Date(),
+                "device_info": window.navigator.userAgent
+            })
+        }).then((response) => {
+            if (response.ok) {
+                response.text().then(complete_task_status => {
+                    complete_task_status = JSON.parse(complete_task_status)
+                    if(complete_task_status.status == 0){
+                        if(parseInt(complete_task_status.task_id) == parseInt(task_id) && complete_task_status.periodicity == periodicity){
+                            const selector = `[task_id="${complete_task_status.task_id}"][task_periodicity="${complete_task_status.periodicity}"]`;
+                            document.querySelector(selector).parentNode.remove();
+                            if(document.getElementsByClassName("task_element").length == 0){
+                                var img_relax = document.createElement("img")
+                                img_relax.src = '/app/img/misc/beer.png'
+                                document.getElementById("current_tasks").appendChild(document.createElement("br"))
+                                document.getElementById("current_tasks").appendChild(img_relax);
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
     } else {
         location.href = URL_PREFIX + '/error';
     }
 }
 
-function appendTaskToDom(periodicity, task_list) {
-    Object.entries(task_list).forEach(task => {
-        const [task_id, task_text] = task;
-        const node = document.createElement("div");
-        node.className = 'task_element';
-        const button = document.createElement("button");
-        button.className = "btn btn-primary";
-        button.innerHTML = task_text;
-        button.setAttribute('task_id', task_id);
-        button.setAttribute('task_periodicity', periodicity);
-        button.onclick = function () {
-            completeTask(task_id, periodicity);
-        };
-        node.appendChild(button);
-        document.getElementById("current_tasks").appendChild(node);
-        document.getElementById("current_tasks").appendChild(document.createElement("br"));
+function godMode(){
+    const elementsToRemove = document.querySelectorAll('.task_element');
+
+    elementsToRemove.forEach(element => {
+        element.remove();
+        if(document.getElementsByClassName("task_element").length == 0){
+            var img_relax = document.createElement("img")
+            img_relax.src = '/app/img/misc/beer.png'
+            document.getElementById("current_tasks").appendChild(document.createElement("br"))
+            document.getElementById("current_tasks").appendChild(img_relax);
+        }
     });
 }
 
+function appendTaskToDom(periodicity, task_list) {
+    if(task_list.length == 0){
+        var img_relax = document.createElement("img")
+        img_relax.src = '/app/img/misc/beer.png'
+        document.getElementById("current_tasks").appendChild(document.createElement("br"))
+        document.getElementById("current_tasks").appendChild(img_relax);
+    }else{
+        Object.entries(task_list).forEach(task => {
+            const [task_id, task_text] = task;
+            const node = document.createElement("div");
+            node.className = 'task_element';
+            const button = document.createElement("button");
+            button.className = "btn btn-primary";
+            button.innerHTML = task_text;
+            button.setAttribute('task_id', task_id);
+            button.setAttribute('task_periodicity', periodicity);
+            button.onclick = function () {
+                completeTask(task_id, periodicity);
+            };
+            node.appendChild(button);
+            node.appendChild(document.createElement("br"));
+            node.appendChild(document.createElement("br"));
+            document.getElementById("current_tasks").appendChild(node);
+            // document.getElementById("current_tasks").appendChild(document.createElement("br"));
+        });
+        }
+    }
+    
 function appendFutureTaskToDom(task_list) {
     Object.entries(task_list).forEach(task => {
         const [task_id, task_text] = task;
@@ -263,7 +310,6 @@ function getText() {
     }).then((response) => {
         if (response.ok) {
             response.text().then(notepad_text => {
-                console.log(notepad_text);
                 document.getElementById("notepad_text").value = notepad_text;
                 sessionStorage.setItem("notepad_text", notepad_text);
             });
@@ -274,7 +320,6 @@ function getText() {
 var saveInProgress = false;
 
 function saveText() {
-    console.log(saveInProgress);
     if (!saveInProgress) {
         var notepad_text_payload = document.getElementById("notepad_text").value;
         saveInProgress = true;
@@ -295,7 +340,6 @@ function saveText() {
                     document.getElementById("save_success_message").style.display = 'none';
                 }, 3000);
                 response.json().then(response => {
-                    console.log(response);
                     document.getElementById("notepad_text").value = response['notepad_text'];
                     saveInProgress = false;
                 });
