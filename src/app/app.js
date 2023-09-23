@@ -38,35 +38,76 @@ app.post('/count', (req, res) => {
 });
 
 app.post('/list-tasks', (req, res) => {
-  const current_week_number = req.body.current_week_number
-  const task_data = JSON.parse(fs.readFileSync(__dirname + '/data/home_maintenance_tasks.json', 'utf8'));
+
+  const currentWeekNumber = req.body.current_week_number
+  const taskData = JSON.parse(fs.readFileSync(__dirname + '/data/home_maintenance_tasks.json', 'utf8'));
 
   // Read and parse status.json
-  const status_data = JSON.parse(fs.readFileSync(__dirname + '/data/home_maintenance_tasks_status.json', 'utf8'));
+  const statusData = JSON.parse(fs.readFileSync(__dirname + '/data/home_maintenance_tasks_status.json', 'utf8'));
+  // Define the valid periodicities
+  const validPeriodicities = ['weekly', 'biweekly', 'monthly', 'bimonthly', 'quarterly', 'biannually', 'yearly', 'biennially'];
 
-  const all_periodicities = task_data.periodicity || {}; // Get all periodicities or an empty object if none exist
-  const result = {}; // To store the filtered tasks for all periodicities
+    // Filter tasks in task.json based on the presence in status.json and future appearances
+    const filteredTasks = Object.keys(taskData.periodicity).reduce((result, periodicity) => {
+      if (validPeriodicities.includes(periodicity)) {
+          // Filter tasks for the current periodicity
+          result[periodicity] = {
+              tasks: {}
+          };
 
-  for (const periodicity in all_periodicities) {
-    if (all_periodicities.hasOwnProperty(periodicity)) {
-      const periodicity_tasks = all_periodicities[periodicity].tasks;
-      result[periodicity] = {};
+          Object.keys(taskData.periodicity[periodicity].tasks).forEach(taskId => {
+              const task = taskData.periodicity[periodicity].tasks[taskId];
 
-      // Filter tasks in task.json based on the presence in status.json
-      for (const task_id in periodicity_tasks) {
-        if (periodicity_tasks.hasOwnProperty(task_id)) {
-          const task = periodicity_tasks[task_id];
-          const matching_status = status_data.completed_tasks[current_week_number] && status_data.completed_tasks[current_week_number].find(task => parseInt(task.task_id) === parseInt(task_id));
-          
-          if (!matching_status) {
-            result[periodicity][task_id] = task;
-          }
-        }
+              // Check if there is a matching status entry in status.json for the current week
+              const matchingStatus = statusData.completed_tasks[currentWeekNumber] && statusData.completed_tasks[currentWeekNumber].find(status =>
+                  status.task_id === taskId && status.periodicity === periodicity
+              );
+
+              if (!matchingStatus) {
+                  // Check if the task should appear in the future based on its periodicity
+                  if (shouldTaskAppearInFuture(taskId, periodicity, currentWeekNumber)) {
+                      result[periodicity].tasks[taskId] = task;
+                  }
+              }
+          });
       }
-    }
-  }
 
-  res.json(result);
+      return result;
+  }, {});
+
+// Function to determine if a task should appear in the future
+function shouldTaskAppearInFuture(taskId, periodicity, currentWeekNumber) {
+  // Define the periodicity timepoints (in weeks)
+  const timepoints = {
+      weekly: 1,
+      biweekly: 2,
+      monthly: 4,
+      bimonthly: 8,
+      quarterly: 13, // Assuming a quarter is approximately 13 weeks
+      biannually: 26, // Assuming half a year is approximately 26 weeks
+      yearly: 52, // Assuming a year is approximately 52 weeks
+      biennially: 104 // Assuming two years are approximately 104 weeks
+  };
+
+  // Get the timepoint for the current periodicity
+  const timepoint = timepoints[periodicity];
+
+  // Calculate the range of week numbers for the given periodicity
+  const weekNumbers = Array.from({ length: timepoint }, (_, i) => currentWeekNumber - i);
+
+  // Check if there is a matching status entry in status.json for any week in the range
+  const matchingStatus = weekNumbers.some((weekNumber) =>
+      statusData.completed_tasks[weekNumber] &&
+      statusData.completed_tasks[weekNumber].find(
+          (status) => status.task_id === taskId && status.periodicity === periodicity
+      )
+  );
+
+  return !matchingStatus;
+}
+
+  // Send the filteredTasks as a JSON response
+  res.json(filteredTasks);
 });
 
 app.post('/list-tasks-status', (req, res) => {
@@ -79,7 +120,7 @@ app.post('/list-tasks-status', (req, res) => {
 
 
 app.post('/complete-task', (req, res) => {
-  var week_number = req.body.week_number
+  var current_week_number = req.body.current_week_number
   var task_id = req.body.task_id
   var periodicity = req.body.periodicity
   var completed_by = req.body.completed_by
@@ -90,7 +131,7 @@ app.post('/complete-task', (req, res) => {
     var tasks_list = JSON.parse(tasks);
     var task_to_add =  {
       'task_id': task_id, 
-      'task_name': tasks_list.periodicity.task_id,
+      'task_name': tasks_list.periodicity[periodicity]['tasks'][task_id],
       'periodicity': periodicity,
       'completed_by': completed_by,
       'completed_time': completed_time,
@@ -106,10 +147,10 @@ app.post('/complete-task', (req, res) => {
           const jsonData = JSON.parse(data);
           const completedTasks = jsonData.completed_tasks;
   
-          if (completedTasks.hasOwnProperty(week_number)) {
-              completedTasks[week_number].push(task_to_add);
+          if (completedTasks.hasOwnProperty(current_week_number)) {
+              completedTasks[current_week_number].push(task_to_add);
           } else {
-              completedTasks[week_number] = [task_to_add];
+              completedTasks[current_week_number] = [task_to_add];
           }
   
           // Write the updated JSON back to the file.
@@ -117,7 +158,7 @@ app.post('/complete-task', (req, res) => {
               if (err) {
                   console.error('Error writing file:', err);
               } else {
-                  console.log(`Successfully updated week ${week_number}.`);
+                  console.log(`Successfully updated week ${current_week_number}.`);
                   res.json({status: 0, task_id: task_id, periodicity: periodicity})
               }
           });

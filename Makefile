@@ -13,9 +13,9 @@ clean:
 	docker stop homemaint && docker rm homemaint
 
 run:
-	docker run -p 49160:8000 --restart unless-stopped --name homemaint -d christopher/homemaintenance
+	docker run -v ~/Workspace/HomeMaintenance/src/app/data:/src/app/data -p 49160:8000 --restart unless-stopped --name homemaint -d christopher/homemaintenance
 
 update:
 	docker stop homemaint && docker rm homemaint
 	docker build . -t christopher/homemaintenance
-	docker run -p 49160:8000 --restart unless-stopped --name homemaint -d christopher/homemaintenance
+	docker run -v ~/Workspace/HomeMaintenance/src/app/data:/src/app/data -p 49160:8000 --restart unless-stopped --name homemaint -d christopher/homemaintenance

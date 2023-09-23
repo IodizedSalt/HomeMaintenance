@@ -24,3 +24,76 @@
     opacity: 1;
     transition: opacity 1s ease; /* Add a CSS transition for opacity */
 }
+
+    button.weekly{
+        background-color: #0d6efd;
+        --bs-btn-border-color: #0d6efd
+    }
+
+    button.weekly:hover {
+        background-color: #0d6efd;
+        --bs-btn-border-color: #0d6efd
+    }
+
+button.biweekly{
+    background-color: #198754;
+    --bs-btn-border-color: #198754;
+}
+
+button.biweekly:hover{
+    background-color: #198754;
+    --bs-btn-border-color: #198754;
+}
+
+button.monthly{
+    background-color: #fd7e14;
+    --bs-btn-border-color: #fd7e14;
+}
+button.monthly:hover{
+    background-color: #fd7e14;
+    --bs-btn-border-color: #fd7e14;
+}
+
+button.bimonthly{
+    background-color: #6610f2;
+    --bs-btn-border-color: #6610f2;
+}
+button.bimonthly:hover{
+    background-color: #6610f2;
+    --bs-btn-border-color: #6610f2;
+}
+
+button.quarterly{
+    background-color: #495057;
+    --bs-btn-border-color: #495057;
+}
+button.quarterly:hover{
+    background-color: #495057;
+    --bs-btn-border-color: #495057;
+}
+
+button.biannually{
+    background-color:#d63384;
+    --bs-btn-border-color:#d63384;
+}
+button.biannually:hover{
+    background-color:#d63384;
+    --bs-btn-border-color:#d63384;
+}
+button.yearly{
+    background-color: #ffc107;
+    --bs-btn-border-color: #ffc107;
+}
+button.yearly:hover{
+    background-color: #ffc107;
+    --bs-btn-border-color: #ffc107;
+}
+
+button.biennially{
+    background-color: #664d03;
+    --bs-btn-border-color: #664d03;
+}
+button.biennially:hover{
+    background-color: #664d03;
+    --bs-btn-border-color: #664d03;
+}

@@ -1,9 +1,11 @@
+- Add a 'procrastinate' button to push tasks to next weeks list
+
+- Persist biweekly/monthly/quarterly tasks (Currently, monthly task will only be visible for one week of the month)
+
 - Implement versioning for notepad
 
 - Makefile command to create necessary data files (notepad.txt, home_maintenace, etc.)
 
-- When clicking buttons, save task to JSON
-- Add some validation to clicking button/saving task with timestamping
 
 - Show upcoming tasks
 

@@ -33,12 +33,23 @@ console.log(URL_PREFIX)
 
 // Initial start date that will be forever used to calculate when tasks need to be accomplished
 // ヽ༼ຈل͜ຈ༽ﾉ All hail ISO 8601 ヽ༼ຈل͜ຈ༽ﾉ
-const start_date = new Date("2023-08-11T00:00:00.000Z").toISOString();
-startDate = new Date((new Date(start_date)).getFullYear(), 0, 1);
-var days = Math.floor((new Date(start_date) - startDate) /
-    (24 * 60 * 60 * 1000));
-const start_date_week_number = Math.ceil(days / 7);
-const current_date = new Date().toISOString();
+var start_date = new Date("2023-08-11T00:00:00.000Z")
+var start_date_week_number = getISOWeekNumber(start_date);
+console.log(start_date_week_number)
+
+var current_date = new Date()
+// var current_week_number = getISOWeekNumber(new Date())
+var current_week_number = 1
+console.log(current_week_number)
+
+
+function getISOWeekNumber(date) {
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+    const yearStart = new Date(d.getFullYear(), 0, 1);
+    return Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+  }
 
 function forceCycle(image_type, increment_amnt) {
     var images = [];
@@ -97,21 +108,22 @@ function getTasks() {
         },
         mode: 'cors',
         body: JSON.stringify({
-            current_week_number: getCurrentWeekNumber()
+            current_week_number: current_week_number
         })
     }).then((response) => {
         if (response.ok) {
             response.json().then(tasks_list => {
+                console.log(tasks_list)
                 sessionStorage.setItem("tasks_list", JSON.stringify(tasks_list));
-                const week_number = getCurrentWeekNumber()
-                getTasksWeekly(week_number);
-                getTasksBiWeekly(week_number);
-                getTasksMonthly(week_number);
-                getTasksBiMonthly(week_number);
-                getTasksQuarterly(week_number);
-                getTasksBiannually(week_number);
-                getTasksYearly(week_number);
-                getTasksBiennialy(week_number);
+                const weekDifference = getCurrentWeekDifference(start_date, current_date)
+                getTasksWeekly();
+                getTasksBiWeekly(weekDifference);
+                getTasksMonthly(weekDifference);
+                getTasksBiMonthly(weekDifference);
+                getTasksQuarterly(weekDifference);
+                getTasksBiannually(weekDifference);
+                getTasksYearly(weekDifference);
+                getTasksBiennialy(weekDifference);
             });
         }
     });
@@ -121,86 +133,82 @@ function getTasksPeriodicity(periodicity) {
     return JSON.parse(sessionStorage.getItem("tasks_list"))[periodicity];
 }
 
-function getTasksWeekly(current_week_number) {
+function getTasksWeekly() {
     var tasks = getTasksPeriodicity('weekly');
     appendTaskToDom('weekly', tasks);
 }
 
-function getTasksBiWeekly(current_week_number) {
+function getTasksBiWeekly(weekDifference) {
     var tasks = getTasksPeriodicity('biweekly');
-    
-    if ((current_week_number - start_date_week_number) % 2 === 0) {
+    // console.log(weekDifference)
+    // if (weekDifference >= 2) {
         appendTaskToDom('biweekly', tasks);
-    }
+    // }
 }
 
-function getTasksMonthly(current_week_number) {
+function getTasksMonthly(weekDifference) {
     var tasks = getTasksPeriodicity('monthly');
-    
-    if ((current_week_number - start_date_week_number) % 4 === 0) {
+    // if (weekDifference >= 4) {
         appendTaskToDom('monthly', tasks);
-    }
+    // }
 }
 
-function getTasksBiMonthly(current_week_number) {
+function getTasksBiMonthly(weekDifference) {
     var tasks = getTasksPeriodicity('bimonthly');
-    
-    if ((current_week_number - start_date_week_number) % 8 === 0) {
+    // console.log(weekDifference)
+    // if (weekDifference >= 8) {
         appendTaskToDom('bimonthly', tasks);
-    }
+    // }
 }
 
-function getTasksQuarterly(current_week_number) {
+function getTasksQuarterly(weekDifference) {
     var tasks = getTasksPeriodicity('quarterly');
     
-    if ((current_week_number - start_date_week_number) % 13 === 0) {
+    // if (weekDifference >= 13) {
         appendTaskToDom('quarterly', tasks);
-    }
+    // }
 }
 
-function getTasksBiannually(current_week_number) {
+function getTasksBiannually(weekDifference) {
     var tasks = getTasksPeriodicity('biannually');
     
-    if ((current_week_number - start_date_week_number) % 26 === 0) {
+    // if (weekDifference >= 26) {
         appendTaskToDom('biannually', tasks);
-    }
+    // }
 }
 
-function getTasksYearly(current_week_number) {
+function getTasksYearly(weekDifference) {
     var tasks = getTasksPeriodicity('yearly');
     
-    if ((current_week_number - start_date_week_number) % 52 === 0) {
-        if (new Date(current_date).getFullYear() - new Date(start_date).getFullYear() > 0) {
+    // if (weekDifference >= 52) {
+        // if (new Date(current_date).getFullYear() - new Date(start_date).getFullYear() > 0) {
             appendTaskToDom('yearly', tasks);
-        }
-    }
+        // }
+    // }
 }
 
-function getTasksBiennialy(current_week_number) {
+function getTasksBiennialy(weekDifference) {
     var tasks = getTasksPeriodicity('biennially');
     
-    if ((current_week_number - start_date_week_number) % 52 === 0) {
-        if ((new Date(current_date).getFullYear() - new Date(start_date).getFullYear()) % 2 === 0) {
+    // if ((current_week_number - start_date_week_number) % 52 === 0) {
+    //     if ((new Date(current_date).getFullYear() - new Date(start_date).getFullYear()) % 2 === 0) {
             appendTaskToDom('biennially', tasks);
-        }
-    }
+        // }
+    // }
 }
 
-function getCurrentWeekNumber(){
+function getCurrentWeekDifference(){
+    // Calculate the difference in milliseconds between the two dates
+    const timeDifference = current_date - start_date;
     
-    var currentDate = new Date();
-    var startDate = new Date(currentDate.getFullYear(), 0, 1);
-    var days = Math.floor((currentDate - startDate) /
-        (24 * 60 * 60 * 1000));
+    // Calculate the difference in weeks
+    const weekDifference = Math.floor(timeDifference / (7 * 24 * 60 * 60 * 1000));
     
-    var weekNumber = Math.ceil(days / 7);
-    return weekNumber
+    return weekDifference;
 }
 
 function completeTask(task_id, periodicity) {
     var user_name = prompt("Who are you?");
-
-    var week_number = getCurrentWeekNumber()
     if (user_name == null) {
         return; // Cancel click
     } else if (user_name.toUpperCase() == 'COM' || user_name.toUpperCase() == '4414') { // Mis wants numbers instead
@@ -212,7 +220,7 @@ function completeTask(task_id, periodicity) {
             },
             mode: 'cors',
             body: JSON.stringify({
-                "week_number": week_number, 
+                "current_week_number": current_week_number, 
                 "task_id": task_id, 
                 "periodicity": periodicity,
                 "completed_by": user_name,
@@ -265,15 +273,17 @@ function appendTaskToDom(periodicity, task_list) {
         document.getElementById("current_tasks").appendChild(document.createElement("br"))
         document.getElementById("current_tasks").appendChild(img_relax);
     }else{
-        Object.entries(task_list).forEach(task => {
+        Object.entries(task_list['tasks']).forEach(task => {
             const [task_id, task_text] = task;
             const node = document.createElement("div");
             node.className = 'task_element';
             const button = document.createElement("button");
-            button.className = "btn btn-primary";
             button.innerHTML = task_text;
             button.setAttribute('task_id', task_id);
+            console.log(periodicity, task_text)
             button.setAttribute('task_periodicity', periodicity);
+            
+            button.className = "btn btn-primary" + " " + periodicity;
             button.onclick = function () {
                 completeTask(task_id, periodicity);
             };
@@ -281,7 +291,6 @@ function appendTaskToDom(periodicity, task_list) {
             node.appendChild(document.createElement("br"));
             node.appendChild(document.createElement("br"));
             document.getElementById("current_tasks").appendChild(node);
-            // document.getElementById("current_tasks").appendChild(document.createElement("br"));
         });
         }
     }
