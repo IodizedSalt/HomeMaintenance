@@ -35,12 +35,11 @@ console.log(URL_PREFIX)
 // ヽ༼ຈل͜ຈ༽ﾉ All hail ISO 8601 ヽ༼ຈل͜ຈ༽ﾉ
 var start_date = new Date("2023-08-11T00:00:00.000Z")
 var start_date_week_number = getISOWeekNumber(start_date);
-console.log(start_date_week_number)
 
 var current_date = new Date()
-// var current_week_number = getISOWeekNumber(new Date())
-var current_week_number = 1
-console.log(current_week_number)
+var current_week_number = getISOWeekNumber(new Date())
+// var current_week_number = 1
+// console.log(current_week_number)
 
 
 function getISOWeekNumber(date) {
@@ -108,7 +107,8 @@ function getTasks() {
         },
         mode: 'cors',
         body: JSON.stringify({
-            current_week_number: current_week_number
+            current_week_number: current_week_number,
+            current_year: new Date().getFullYear(),
         })
     }).then((response) => {
         if (response.ok) {
@@ -189,7 +189,7 @@ function getTasksYearly(weekDifference) {
 
 function getTasksBiennialy(weekDifference) {
     var tasks = getTasksPeriodicity('biennially');
-    
+    console.log(tasks)
     // if ((current_week_number - start_date_week_number) % 52 === 0) {
     //     if ((new Date(current_date).getFullYear() - new Date(start_date).getFullYear()) % 2 === 0) {
             appendTaskToDom('biennially', tasks);
@@ -280,7 +280,6 @@ function appendTaskToDom(periodicity, task_list) {
             const button = document.createElement("button");
             button.innerHTML = task_text;
             button.setAttribute('task_id', task_id);
-            console.log(periodicity, task_text)
             button.setAttribute('task_periodicity', periodicity);
             
             button.className = "btn btn-primary" + " " + periodicity;
