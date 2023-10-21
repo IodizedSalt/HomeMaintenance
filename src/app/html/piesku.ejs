@@ -1,41 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Vedersøvej 26</title>
-        <link href="/app/css/bootstrap/bootstrap.min.css" rel="stylesheet">
-        <link href="/app/css/custom_css.css" rel="stylesheet">
-        <link rel="apple-touch-icon" sizes="180x180" href="/app/favicon/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/app/favicon/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/app/favicon/favicon-16x16.png">
-        <link rel="icon" type="image/x-icon" href="/app/favicon/favicon.ico">
-        <link rel="manifest" href="/app/favicon/site.webmanifest">
-        <meta name="msapplication-TileColor" content="#da532c">
-        <meta name="theme-color" content="#ffffff">
-    </head>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vedersøvej 26</title>
+    <link href="/app/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="/app/css/custom_css.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="/app/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/app/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/app/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="/app/favicon/favicon.ico">
+    <link rel="manifest" href="/app/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body onload="getImgCount()">
+    <script type="text/javascript" src="/app/js/bootstrap/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/app/js/functions.js" env_type="<%= env_type %>"></script>
     <a href="/">
         <img src="/app/img/misc/android-chrome-512x512.png" style="max-width: 50px; margin: 2em 0em 0em 2em;" alt="Home" class="home-icon">
     </a>
-    <body onload=" getImgCount()">
-        <script type = "text/javascript" src="/app/js/bootstrap/bootstrap.bundle.min.js"></script>
-        <script type = "text/javascript" src = "/app/js/functions.js" env_type="<%= env_type %>"></script>
-            <div class="row">
-                <div class="col-3 col-sm-3 col-md-3 col-lg-3"></div>
-                <div class="col-6 col-sm-6 col-md-6 col-lg-6">
-                    <img style="max-width:99%;display: block; margin: auto; object-fit: contain;" src="/app/img/piesku/1.jpg" id="current_img" />
-                </div>
-                <div class="col-3 col-sm-3  col-md-3 col-lg-3"></div>
-            </div>
-            <br/>
+    <div class="container">
         <div class="row">
-            <div class=" col-3 col-sm-3 col-md-3 col-lg-3"></div>
-            <div style="text-align: center;" class=" col-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-3 col-sm-3 col-md-3 col-lg-3 d-flex justify-content-center align-items-center">
                 <button class="btn btn-secondary" onclick="forceCycle('stefan', -1)">&lt;</button>
+            </div>
+            <div class="col-6 col-sm-6 col-md-6 col-lg-6 d-flex justify-content-center">
+                <div class="current_img_container" style="width: 40vw; height: 40vw;">
+                    <img style="max-width: 100%; max-height: 100%; object-fit: contain;" src="/app/img/piesku/1.jpg" id="current_img" />
+                </div>
+            </div>            
+            <div class="col-3 col-sm-3 col-md-3 col-lg-3 d-flex justify-content-center align-items-center">
                 <button class="btn btn-secondary" onclick="forceCycle('stefan', 1)">&gt;</button>
             </div>
-            <div class="col-3 col-sm-3 col-md-3 col-lg-3"></div>
         </div>
-    </body>
-</html>
+        <button class="btn btn-primary form-control text-center mt-3" onclick="randomImg()">&#x1F500;</button>
+        <input id="stefan_img_input"  type="number" class="form-control text-center mt-3" placeholder="Choose photo number" onblur="setImgNum(this.value)" step="1">
 
+    </div>
+    <br/>
+</body>
+</html>

@@ -97,3 +97,12 @@ button.biennially:hover{
     background-color: #664d03;
     --bs-btn-border-color: #664d03;
 }
+
+/* Stefan size */
+/* Adjust the width for smaller screens (e.g., screens smaller than 992px) */
+@media (max-width: 992px) {
+    .current_img_container {
+        width: 65vw !important; /* Adjust this value to your desired width for smaller screens (e.g., mobile devices) */
+        height: 65vw !important;
+    }
+}
