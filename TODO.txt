@@ -1,6 +1,7 @@
 - Add a 'procrastinate' button to push tasks to next weeks list
 
 - Implement versioning for notepad
+    - Before save, check that the bytes/size of the file is the same as what's on the server, and if not, get the file from server and integrate changes with those (so two people cannot overwrite each other at same time)
 
 - Makefile command to create necessary data files (notepad.txt, home_maintenace, etc.)
 
@@ -13,7 +14,8 @@
 - Show history log of completed tasks
 - Embed monthly payments/budget from .xlsx, and hide it behind some validation
 
-- Randomize piesku photo number + add input to load specific photo number
-    - Gallery preview images at the top/on the side?
+- Gallery preview images at the top/on the side for piesku?
 
-- CSS...
+- file upload support
+
+- stream videos from pi

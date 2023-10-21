@@ -138,7 +138,7 @@ function getTasks() {
     }).then((response) => {
         if (response.ok) {
             response.json().then(tasks_list => {
-                console.log(tasks_list)
+                // console.log(tasks_list)
                 sessionStorage.setItem("tasks_list", JSON.stringify(tasks_list));
                 const weekDifference = getCurrentWeekDifference(start_date, current_date)
                 getTasksWeekly();
@@ -214,7 +214,6 @@ function getTasksYearly(weekDifference) {
 
 function getTasksBiennialy(weekDifference) {
     var tasks = getTasksPeriodicity('biennially');
-    console.log(tasks)
     // if ((current_week_number - start_date_week_number) % 52 === 0) {
     //     if ((new Date(current_date).getFullYear() - new Date(start_date).getFullYear()) % 2 === 0) {
             appendTaskToDom('biennially', tasks);

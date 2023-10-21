@@ -44,91 +44,225 @@ app.post('/list-tasks', (req, res) => {
   // Read and parse status.json
   const statusData = JSON.parse(fs.readFileSync(__dirname + '/data/home_maintenance_tasks_status.json', 'utf8'));
 
-  const validPeriodicities = ['weekly', 'biweekly', 'monthly', 'bimonthly', 'quarterly', 'biannually', 'yearly', 'biennially'];
+  // const validPeriodicities = ['weekly', 'biweekly', 'monthly', 'bimonthly', 'quarterly', 'biannually', 'yearly', 'biennially'];
   var result = {}
+  const validPeriodicities = ['weekly', 'biweekly', 'monthly', 'bimonthly', 'quarterly', 'biannually', 'yearly', 'biennially'];
 
-  validPeriodicities.forEach(current_periodicity => {
-    result[current_periodicity] = {
-      tasks: {}
-    };
-    Object.entries(taskData.periodicity[current_periodicity]['tasks']).forEach(([task_id, task_name]) => {
-      // If a task exists with this number of weeks, we don't want to display it because it is already completed for this periodicity
-      // E.g, monthly task completed in week 36 will not display until week 40
-      var number_of_weeks_to_lookup = calculateNumberOfWeeksFromPeriodicity(current_periodicity, current_week_number)
-
-
-      if (!number_of_weeks_to_lookup.factor_year_change) {
-        // Check if there is a matching status entry in status.json for the task and periodicity
-        var matchingStatus = statusData.completed_tasks[current_year] &&
-          Object.keys(statusData.completed_tasks[current_year]).some((completed_week_num) =>
-            // console.log(number_of_weeks_to_lookup.adjusted_weeks, completed_week_num)&&
-            number_of_weeks_to_lookup.adjusted_weeks.includes(parseInt(completed_week_num)) &&
-            statusData.completed_tasks[current_year][completed_week_num].find(
-              (status) => status.task_id === task_id && status.periodicity === current_periodicity
-            )
-          );
-        if (!matchingStatus) {
-          result[current_periodicity].tasks[task_id] = task_name;
-        }
-      } else {
-        // This gets tricky. We might get an array with duplicate week numbers (Biennial), so we need to use the order of the array to split it into year numbers, and parse through the completed tasks that way.
-        const splitArrays = [];
-        let currentArray = [];
-        var adjusted_weeks = number_of_weeks_to_lookup.adjusted_weeks
-        for (let i = 0; i < adjusted_weeks.length; i++) {
-          if (adjusted_weeks[i] === 1 && currentArray.length === 0) {
-            currentArray.push(1);
-          } else if (adjusted_weeks[i] === 52 && currentArray.length > 0) {
-            splitArrays.push(currentArray);
-            currentArray = [52];
-          } else {
-            currentArray.push(adjusted_weeks[i]);
+  function checkIfPeriodicityLapsed(task) {
+    console.log(task)
+      const timepoints = {
+          weekly: 1,
+          biweekly: 2,
+          monthly: 4,
+          bimonthly: 8,
+          quarterly: 13,
+          biannually: 26,
+          yearly: 52,
+          biennially: 104
+      };
+  
+      const current_date = new Date();
+  
+      // Calculate the difference in milliseconds
+      const differenceInMilliseconds = current_date - new Date(task.completed_time);
+      
+      // Calculate the expected elapsed time for the periodicity
+      const millisecondsElapsedSinceTaskCompletion = timepoints[task.periodicity] * 7 * 24 * 60 * 60 * 1000;
+  
+      return differenceInMilliseconds <= millisecondsElapsedSinceTaskCompletion;
+  }
+  
+  function checkTasksPeriodicity(tasks, status) {
+      // const tasks = JSON.parse(fs.readFileSync(tasksJson));
+      // const status = JSON.parse(fs.readFileSync(statusJson));
+  
+      const result = {}; // Declare result here to prevent the "identifier result has already been declared" error
+      validPeriodicities.forEach(current_periodicity => {
+          result[current_periodicity] = {
+              tasks: {}
+          };
+          if (tasks.periodicity.hasOwnProperty(current_periodicity)) {
+              const taskList = tasks.periodicity[current_periodicity].tasks;
+              console.log(taskList)
+              for (let taskId in taskList) {
+                  if (taskList.hasOwnProperty(taskId)) {
+                      const taskName = taskList[taskId];
+                      let taskCompleted = false;
+  
+                      if (status.completed_tasks) {
+                          for (let year in status.completed_tasks) {
+                              if (status.completed_tasks.hasOwnProperty(year)) {
+                                  for (let week in status.completed_tasks[year]) {
+                                      if (status.completed_tasks[year].hasOwnProperty(week)) {
+                                          for (let i = 0; i < status.completed_tasks[year][week].length; i++) {
+                                              const task = status.completed_tasks[year][week][i];
+                                              console.log(task)
+                                              if (task.task_id === taskId && task.periodicity === current_periodicity) {
+                                                  if (checkIfPeriodicityLapsed(task)) {
+                                                      taskCompleted = true;
+                                                      break;
+                                                  }
+                                              }
+                                          }
+                                      }
+                                      if (taskCompleted) break;
+                                  }
+                              }
+                              if (taskCompleted) break;
+                          }
+                      }
+  
+                      if (!taskCompleted) {
+                          result[current_periodicity].tasks[taskId] = taskName;
+                      }
+                  }
+              }
           }
-        }
+      });
+  
+      return result;
+  }
+  
+  // Example usage:
+  const tasks_list = checkTasksPeriodicity(taskData, statusData);
+  console.log(tasks_list);
+  res.json(tasks_list)
 
-        // Add the last subarray
-        if (currentArray.length > 0) {
-          splitArrays.push(currentArray);
-        }
 
-        // object containting year: Timpepoint Week numbers of that year
-        var week_array_year_mapping = {}
-        splitArrays.forEach((sub_array, i) => {
-          week_array_year_mapping[current_year - i] = sub_array
-        })
+  // validPeriodicities.forEach(current_periodicity => {
+  //   result[current_periodicity] = {
+  //     tasks: {}
+  //   };
+  //   Object.entries(taskData.periodicity[current_periodicity]['tasks']).forEach(([task_id, task_name]) => {
+  //     // If a task exists with this number of weeks, we don't want to display it because it is already completed for this periodicity
+  //     // E.g, monthly task completed in week 36 will not display until week 40
+  //     var number_of_weeks_to_lookup = calculateNumberOfWeeksFromPeriodicity(current_periodicity, current_week_number)
 
-        var matchingStatus = false;
 
-        for (const [year, weeks] of Object.entries(week_array_year_mapping)) {
-          var yearMatchingStatus = statusData.completed_tasks[year] &&
-            Object.keys(statusData.completed_tasks[year]).some((completed_week_num) =>
-              weeks.includes(parseInt(completed_week_num)) &&
-              statusData.completed_tasks[year][completed_week_num].find(
-                (status) => status.task_id === task_id && status.periodicity === current_periodicity
-              )
-            );
 
-          if (yearMatchingStatus) {
-            matchingStatus = true; // Set matchingStatus to true if any year has a match
-            break; // Exit the loop
-          }
-        }
+  //               //  Object.keys(statusData.completed_tasks).forEach(year => {
+  //               //   Object.keys(statusData.completed_tasks[year]).forEach(week => {
+  //               //     // console.log(statusData.completed_tasks[year][week])
+  //               //     statusData.completed_tasks[year][week].forEach(item => {
+  //               //       if(checkIfPeriodicityLapsed(item)){
+  //               //         console.log(true)
+  //               //         result[current_periodicity].tasks[task_id] = task_name;
+  //               //       }else{
+  //               //         console.log(false)
+  //               //         result[current_periodicity].tasks[task_id]
+  //               //       }
+  //               //     });
+  //               //   });
+  //               // });
 
-        if (matchingStatus) {
-          result[current_periodicity].tasks = {}; // Set tasks to an empty object if matchingStatus is true or yearMatchingStatus is undefined
-        } else {
-          result[current_periodicity].tasks[task_id] = task_name; // Set the task if matchingStatus is false for all years
-        }
+  //     // if (!number_of_weeks_to_lookup.factor_year_change) {
+  //     //   // Check if there is a matching status entry in status.json for the task and periodicity
+  //     //   var matchingStatus = statusData.completed_tasks[current_year] &&
+  //     //     Object.keys(statusData.completed_tasks[current_year]).some((completed_week_num) =>
+  //     //       number_of_weeks_to_lookup.adjusted_weeks.includes(parseInt(completed_week_num)) &&
+  //     //       statusData.completed_tasks[current_year][completed_week_num].find(
+  //     //         (status) => status.task_id === task_id && status.periodicity === current_periodicity
+  //     //       )
 
-      }
-    })
+  //     //     );
+  //     //     // console.log(statusData.completed_tasks)
+  //     //   // console.log(statusData.completed_tasks[current_year][completed])
+  //     //   if (!matchingStatus) {
+  //     //     result[current_periodicity].tasks[task_id] = task_name;
+                   
+  //     //   }
+  //     // } else {
+  //     //   // This gets tricky. We might get an array with duplicate week numbers (Biennial), so we need to use the order of the array to split it into year numbers, and parse through the completed tasks that way.
+  //     //   const splitArrays = [];
+  //     //   let currentArray = [];
+  //     //   var adjusted_weeks = number_of_weeks_to_lookup.adjusted_weeks
+  //     //   for (let i = 0; i < adjusted_weeks.length; i++) {
+  //     //     if (adjusted_weeks[i] === 1 && currentArray.length === 0) {
+  //     //       currentArray.push(1);
+  //     //     } else if (adjusted_weeks[i] === 52 && currentArray.length > 0) {
+  //     //       splitArrays.push(currentArray);
+  //     //       currentArray = [52];
+  //     //     } else {
+  //     //       currentArray.push(adjusted_weeks[i]);
+  //     //     }
+  //     //   }
 
-  })
+  //     //   // Add the last subarray
+  //     //   if (currentArray.length > 0) {
+  //     //     splitArrays.push(currentArray);
+  //     //   }
 
-  res.json(result);
+  //     //   // object containting year: Timpepoint Week numbers of that year
+  //     //   var week_array_year_mapping = {}
+  //     //   splitArrays.forEach((sub_array, i) => {
+  //     //     week_array_year_mapping[current_year - i] = sub_array
+  //     //   })
+
+  //     //   var matchingStatus = false;
+
+  //     //   for (const [year, weeks] of Object.entries(week_array_year_mapping)) {
+  //     //     var yearMatchingStatus = statusData.completed_tasks[year] &&
+  //     //       Object.keys(statusData.completed_tasks[year]).some((completed_week_num) =>
+  //     //         weeks.includes(parseInt(completed_week_num)) &&
+  //     //         statusData.completed_tasks[year][completed_week_num].find(
+  //     //           (status) => status.task_id === task_id && status.periodicity === current_periodicity
+  //     //         )
+  //     //       );
+  //     //     if (yearMatchingStatus) {
+  //     //       matchingStatus = true; // Set matchingStatus to true if any year has a match
+  //     //       break; // Exit the loop
+  //     //     }
+  //     //   }
+
+  //     //   if (matchingStatus) {
+  //     //     result[current_periodicity].tasks = {}; // Set tasks to an empty object if matchingStatus is true or yearMatchingStatus is undefined
+  //     //   } else {
+  //     //     result[current_periodicity].tasks[task_id] = task_name; // Set the task if matchingStatus is false for all years
+  //     //   }
+
+  //     // }
+  //   })
+
+  // })
+
+  // res.json(result);
 });
 
+// // The periodicity has passed since task completion, but we want to factor in the completion time to enforce the periodicity passing time. (A task completed on Sunday shouldn't appear on Monday, just because the week # changed)
+// function checkIfPeriodicityLapsed(task){
+//   // console.log(task)
+//   const timepoints = {
+//     weekly: 1,
+//     biweekly: 2,
+//     monthly: 4,
+//     bimonthly: 8,
+//     quarterly: 13,
+//     biannually: 26,
+//     yearly: 52,
+//     biennially: 104
+//   };
+//   const current_date = new Date()
+//   // console.log(current_date)
+//   // task.forEach(task =>{
+//     // console.log('task', task.completed_time)
+//     // console.log('task', task.periodicity)
+//     // Calculate the difference in milliseconds
+//     var differenceInMilliseconds = current_date - new Date(task.completed_time);
 
+//     // Convert milliseconds to weeks
+//     // var millisecondsInAWeek = 1000 * 60 * 60 * 24 * 7;
+//     // var differenceInWeeks = differenceInMilliseconds / millisecondsInAWeek;
+//     var millisecondsElapsedSinceTaskCompletion = timepoints[task.periodicity]  * 7 * 24 * 60 * 60 * 1000
+//     // console.log(differenceInMilliseconds, millisecondsElapsedSinceTaskCompletion)
+//     if(differenceInMilliseconds >= millisecondsElapsedSinceTaskCompletion ){
+//       // console.log(true)
+//       return true
+//     }else{
+//       // console.log(false)
+//       return false
+//     }
+//   // })
+// }
 
 // Returns an array with week numbers based on timepoint from current week
 function calculateNumberOfWeeksFromPeriodicity(periodicity, current_week_number){
