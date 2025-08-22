@@ -19,3 +19,5 @@
 - file upload support
 
 - stream videos from pi
+
+- Make new repo with this project to make dynamic, custom built

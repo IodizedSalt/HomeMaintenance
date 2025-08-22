@@ -18,6 +18,12 @@ if(command == 'start'){
     env_type = 'LOCAL'
 }
 
+const { createProxyMiddleware } = require('http-proxy-middleware');
+
+app.use('/weather', createProxyMiddleware({
+    target: 'http://weather-app:5173',
+    changeOrigin: true
+}));
 
 // Dog
 router.get("/piesku", function (req, res) {
@@ -36,10 +42,16 @@ router.get("/homemaintenance", function (req, res) {
 });
 
 
+app.use('/vite', createProxyMiddleware({
+    target: 'http://host.docker.internal:5173', // or 'http://localhost:5173'
+    changeOrigin: true
+  }));
+
 // Storskrald
 router.get("/storskrald", function (req, res) {
     res.render(__dirname + '/html/storskrald.ejs', {env_type});
 });
+
 
 // error route.
 router.get("/error", function (req, res) {
