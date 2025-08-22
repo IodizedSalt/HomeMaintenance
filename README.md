@@ -12,3 +12,6 @@ Network Setting -> Broadband -> ADSL/VDSL/ETHWAN -> Use the following static DNS
 Network Setting -> Home Networking -> Static DHCP ->  Configure Pihole with a static DHCP
 
 Network Setting -> DNS -> -> DNS Entry -> Host/IP of Pi
+
+
+docker run -d --name homemaint --network home_network --restart unless-stopped -v ~/Workspace/HomeMaintenance/src/app/data:/src/app/data -p 49160:8000 christopher/homemaintenance
