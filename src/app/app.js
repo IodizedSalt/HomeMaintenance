@@ -463,7 +463,7 @@ app.post('/complete-task', (req, res) => {
 });
 
 app.post('/get-notepad', (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   fs.readFile(__dirname + '/data/notepad.txt', (err, text) => {
     res.send(text);
   });
