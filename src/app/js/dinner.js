@@ -1,16 +1,24 @@
+
 document.addEventListener("DOMContentLoaded", function () {
+
     const searchInput = document.getElementById("recipe-search");
     const ingredientFilters = document.getElementById("ingredient-filters");
     const recipeCards = document.querySelectorAll(".recipe-card");
 
-    const selectedIngredients = new Set();
-
     function filterRecipes() {
         const search = searchInput.value.toLowerCase().trim();
 
+        // Read selected ingredients directly from checkboxes
+        const selectedIngredients = Array.from(
+            ingredientFilters.querySelectorAll(".ingredient-filter:checked")
+        ).map(function (checkbox) {
+            return checkbox.value;
+        });
+
         recipeCards.forEach(function (card) {
-            const title = card.dataset.title;
-            const keywords = card.dataset.keywords;
+
+            const title = card.dataset.title.toLowerCase();
+            const keywords = card.dataset.keywords.toLowerCase();
             const ingredients = card.dataset.ingredients.split(",");
 
             const matchesSearch =
@@ -18,10 +26,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 title.includes(search) ||
                 keywords.includes(search);
 
-            const matchesIngredients = Array.from(selectedIngredients)
-                .every(function (ingredient) {
+            const matchesIngredients = selectedIngredients.every(
+                function (ingredient) {
                     return ingredients.includes(ingredient);
-                });
+                }
+            );
 
             card.classList.toggle(
                 "d-none",
@@ -30,23 +39,19 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // Search recipes
     searchInput.addEventListener("input", filterRecipes);
-    ingredientFilters.addEventListener("click", function (event) {
-        const button = event.target.closest(".ingredient-filter");
-        console.log("click")
-        if (!button) return;
-    
-        const ingredient = button.dataset.ingredient;
-    
-        if (selectedIngredients.has(ingredient)) {
-            selectedIngredients.delete(ingredient);
-        } else {
-            selectedIngredients.add(ingredient);
+
+    // Ingredient checkbox selection
+    ingredientFilters.addEventListener("change", function (event) {
+        if (!event.target.matches(".ingredient-filter")) {
+            return;
         }
-    
+
         filterRecipes();
     });
 
+    // Recipe overview modal
     document.querySelectorAll(".recipe-card-clickable").forEach(function (card) {
 
         function openRecipe() {
@@ -71,4 +76,5 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
 });
