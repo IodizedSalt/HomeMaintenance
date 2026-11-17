@@ -20,12 +20,32 @@ if(command == 'start'){
 
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
-
 // Dog
 router.get("/piesku", function (req, res) {
     res.render(__dirname + '/html/piesku.ejs', {env_type});
 });
 
+
+
+router.get("/dinner", function (req, res) {
+    const dictionaryPath = path.join(
+        __dirname,
+        "data/dinner/utils/ingredients_dictionary.json"
+    );
+
+    const dictionary = JSON.parse(
+        fs.readFileSync(dictionaryPath, "utf8")
+    );
+
+    res.render(
+        path.join(__dirname, "html/recipes.ejs"),
+        {
+            env_type: env_type,
+            ingredients: dictionary.ingredients.slice(0, 30),
+            recipes: dictionary.recipes
+        }
+    );
+});
 // notepad
 router.get("/notepad", function (req, res) {
     res.render(__dirname + '/html/notepad.ejs', {env_type});

@@ -391,3 +391,7 @@ function saveText() {
         });
     }
 }
+
+function recipes(){
+    
+}

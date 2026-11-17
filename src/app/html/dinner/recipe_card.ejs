@@ -1,0 +1,26 @@
+<div class="col recipe-card"
+     data-recipe-title="<%= recipe.title %>"
+     data-title="<%= recipe.title.toLowerCase() %>"
+     data-keywords="<%= recipe.keywords.join(' ').toLowerCase() %>"
+     data-ingredients="<%= recipe.ingredients.join(',') %>">
+
+    <div class="card h-100 recipe-card-clickable"
+         role="button"
+         tabindex="0"
+         aria-label="View recipe: <%= recipe.title %>">
+
+        <div class="card-body">
+            <h5 class="card-title">
+                <%= recipe.title %>
+            </h5>
+
+            <p class="card-text text-body-secondary">
+                <%= recipe.ingredients.length %> ingredients
+            </p>
+
+            <span class="text-primary">
+                View recipe <i class="bi bi-arrow-right"></i>
+            </span>
+        </div>
+    </div>
+</div>

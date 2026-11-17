@@ -1,0 +1,193 @@
+{
+    "generated_at": "2026-11-17T14:07:13.882Z",
+    "recipe_count": 1,
+    "ingredient_count": 13,
+    "ingredients": [
+        {
+            "id": "allspice",
+            "label": "Allspice",
+            "count": 1,
+            "recipes": [
+                "Mejadra"
+            ]
+        },
+        {
+            "id": "cinnamon",
+            "label": "Cinnamon",
+            "count": 1,
+            "recipes": [
+                "Mejadra"
+            ]
+        },
+        {
+            "id": "coriander_seed",
+            "label": "Coriander Seed",
+            "count": 1,
+            "recipes": [
+                "Mejadra"
+            ]
+        },
+        {
+            "id": "cumin_seed",
+            "label": "Cumin Seed",
+            "count": 1,
+            "recipes": [
+                "Mejadra"
+            ]
+        },
+        {
+            "id": "flour",
+            "label": "Flour",
+            "count": 1,
+            "recipes": [
+                "Mejadra"
+            ]
+        },
+        {
+            "id": "lentils",
+            "label": "Lentils",
+            "count": 1,
+            "recipes": [
+                "Mejadra"
+            ]
+        },
+        {
+            "id": "olive_oil",
+            "label": "Olive Oil",
+            "count": 1,
+            "recipes": [
+                "Mejadra"
+            ]
+        },
+        {
+            "id": "onion",
+            "label": "Onion",
+            "count": 1,
+            "recipes": [
+                "Mejadra"
+            ]
+        },
+        {
+            "id": "rice",
+            "label": "Rice",
+            "count": 1,
+            "recipes": [
+                "Mejadra"
+            ]
+        },
+        {
+            "id": "sugar",
+            "label": "Sugar",
+            "count": 1,
+            "recipes": [
+                "Mejadra"
+            ]
+        },
+        {
+            "id": "sunflower_oil",
+            "label": "Sunflower Oil",
+            "count": 1,
+            "recipes": [
+                "Mejadra"
+            ]
+        },
+        {
+            "id": "turmeric",
+            "label": "Turmeric",
+            "count": 1,
+            "recipes": [
+                "Mejadra"
+            ]
+        },
+        {
+            "id": "water",
+            "label": "Water",
+            "count": 1,
+            "recipes": [
+                "Mejadra"
+            ]
+        }
+    ],
+    "recipes": [
+        {
+            "title": "Mejadra",
+            "keywords": [
+                "mejadra",
+                "meajadra",
+                "majadra",
+                "majahadra",
+                "mejadara",
+                "mahadra",
+                "medara",
+                "madara"
+            ],
+            "ingredients": [
+                "lentils",
+                "onion",
+                "flour",
+                "sunflower_oil",
+                "cumin_seed",
+                "coriander_seed",
+                "rice",
+                "olive_oil",
+                "turmeric",
+                "allspice",
+                "cinnamon",
+                "sugar",
+                "water"
+            ],
+            "recipe_ingredients": [
+                "250 g brown or green lentils",
+                "4 onions (about 700 g before peeling)",
+                "3 tbsp wheat flour",
+                "2½ dl sunflower oil",
+                "2 tsp cumin seeds",
+                "1½ tbsp coriander seeds",
+                "200 g basmati rice",
+                "2 tbsp olive oil",
+                "½ tsp ground turmeric",
+                "1½ tsp ground allspice",
+                "1½ tsp ground cinnamon",
+                "1 tsp sugar",
+                "3½ dl water",
+                "Salt and black pepper"
+            ],
+            "ingredients_list": [
+                "lentils",
+                "onion",
+                "flour",
+                "sunflower_oil",
+                "cumin_seed",
+                "coriander_seed",
+                "rice",
+                "olive_oil",
+                "turmeric",
+                "allspice",
+                "cinnamon",
+                "sugar",
+                "water"
+            ],
+            "recipe_steps": {
+                "1": "Rinse the lentils and place them in a saucepan with plenty of water.",
+                "2": "Bring to a boil and simmer for 12–15 minutes, until tender but not falling apart. Drain and set aside.",
+                "3": "Peel the onions and slice them thinly.",
+                "4": "Place the onions in a large flat plate, add the flour and 1 tsp salt, and toss well to coat.",
+                "5": "Heat the sunflower oil in a large saucepan over medium-high heat. / Test the oil with a small piece of onion; it should sizzle vigorously.",
+                "6": "Fry about ⅓ of the onions at a time for 5–7 minutes, stirring frequently, until golden brown and crisp.",
+                "7": "Remove with a slotted spoon and drain on paper towels. Sprinkle lightly with salt.",
+                "8": "Repeat with the remaining onions.",
+                "9": "Wipe out the saucepan, leaving a little oil behind.",
+                "10": "Add the cumin and coriander seeds and cook over medium heat for 1–2 minutes, stirring, until fragrant.",
+                "11": "Add the rice, olive oil, turmeric, allspice, cinnamon, sugar, ½ tsp salt, and a generous amount of black pepper.",
+                "12": "Stir well to coat the rice with the spices.",
+                "13": "Add the cooked lentils and 3½ dl water.",
+                "14": "Bring to a boil, cover, and simmer over very low heat for 15 minutes.",
+                "15": "Remove from the heat, lift the lid, place a clean kitchen towel over the pot, replace the lid, and let stand for 10 minutes.",
+                "16": "Gently fold half of the fried onions into the rice and lentils.",
+                "17": "Transfer to a serving dish and top with the remaining fried onions."
+            },
+            "image": "/app/images/recipes/mejadra.jpg",
+            "filename": "mejadra.json"
+        }
+    ]
+}

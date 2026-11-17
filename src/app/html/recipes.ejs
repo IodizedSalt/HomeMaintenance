@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vedersøvej 26</title>
+    <link href="/app/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="/app/css/custom_css.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="/app/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/app/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/app/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="/app/favicon/favicon.ico">
+    <link rel="manifest" href="/app/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<a href="/">
+    <img src="/app/img/misc/android-chrome-512x512.png" style="max-width: 50px; margin: 2em 0em 0em 2em;" alt="Home" class="home-icon">
+</a>
+
+<body>
+    <script src="/app/js/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="/app/js/functions.js"></script>
+    <script src="/app/js/dinner.js"></script>
+
+    <div style="margin-top: 3em;">
+
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <h4>Dinner</h4>
+        </div>
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2>Dinner recipes</h2>
+                <input
+                    type="search"
+                    id="recipe-search"
+                    class="form-control"
+                    placeholder="Search recipes..."
+                >
+            </div>
+        </div>
+        
+        <div class="mb-4">
+            <div id="ingredient-filters" class="d-flex flex-wrap gap-2">
+                <% ingredients.forEach(function(ingredient) { %>
+                    <button
+                        type="button"
+                        class="btn btn-outline-secondary btn-sm ingredient-filter"
+                        data-ingredient="<%= ingredient.id %>"
+                        aria-pressed="false"
+                    >
+                        <%= ingredient.label %>
+                        <span class="badge text-bg-secondary ms-1">
+                            <%= ingredient.count %>
+                        </span>
+                    </button>
+                <% }); %>
+            </div>
+        </div>
+        
+        <div id="recipe-results" class="row g-3">
+            <% recipes.forEach(function(recipe) { %>
+                <%- include('dinner/recipe_card', { recipe: recipe }) %>
+                <%- include('dinner/recipe_overview', { recipe: recipe }) %>
+            <% }); %>
+        </div>
+    </div>
+
+    <script src="/app/js/dinner.js"></script>
+</body>
+
+</html>

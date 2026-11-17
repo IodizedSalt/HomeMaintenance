@@ -1,0 +1,65 @@
+
+<div class="modal fade"
+id="recipe-overview-modal-<%= recipe.title %>"
+tabindex="-1"
+aria-labelledby="recipe-overview-title-<%= recipe.title %>"
+aria-hidden="true">
+
+<div class="modal-dialog modal-lg modal-dialog-scrollable">
+   <div class="modal-content">
+
+       <div class="modal-header">
+           <h2 class="modal-title fs-4"
+               id="recipe-overview-title-<%= recipe.title %>">
+               <%= recipe.title %>
+           </h2>
+
+           <button type="button"
+                   class="btn-close"
+                   data-bs-dismiss="modal"
+                   aria-label="Close">
+           </button>
+       </div>
+
+       <div class="modal-body">
+
+           <% if (recipe.image) { %>
+               <img src="<%= recipe.image %>"
+                    class="img-fluid rounded mb-4 w-100"
+                    alt="<%= recipe.title %>">
+           <% } %>
+
+           <h5>Ingredients</h5>
+
+           <% if (recipe.recipe_ingredients && recipe.recipe_ingredients.length) { %>
+               <ul>
+                   <% recipe.recipe_ingredients.forEach(function(ingredient) { %>
+                       <li><%= ingredient %></li>
+                   <% }); %>
+               </ul>
+           <% } else { %>
+               <p>No ingredients available.</p>
+           <% } %>
+
+           <hr>
+
+           <h5>Instructions</h5>
+
+           <% if (recipe.recipe_steps) { %>
+               <ol>
+                   <% Object.keys(recipe.recipe_steps)
+                       .sort(function(a, b) { return Number(a) - Number(b); })
+                       .forEach(function(step) { %>
+                           <li class="mb-2">
+                               <%= recipe.recipe_steps[step] %>
+                           </li>
+                   <% }); %>
+               </ol>
+           <% } else { %>
+               <p>No instructions available.</p>
+           <% } %>
+
+       </div>
+   </div>
+</div>
+</div>
