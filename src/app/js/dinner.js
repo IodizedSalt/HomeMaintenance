@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         filterRecipes();
+        this.blur();
     });
 
 
