@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
     searchInput.addEventListener("input", filterRecipes);
     ingredientFilters.addEventListener("click", function (event) {
         const button = event.target.closest(".ingredient-filter");
-    
+        console.log("click")
         if (!button) return;
     
         const ingredient = button.dataset.ingredient;
