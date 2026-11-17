@@ -2,24 +2,33 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     const searchInput = document.getElementById("recipe-search");
+    const ingredientSearch = document.getElementById("ingredient-search");
     const ingredientFilters = document.getElementById("ingredient-filters");
     const recipeCards = document.querySelectorAll(".recipe-card");
 
     function filterRecipes() {
         const search = searchInput.value.toLowerCase().trim();
 
-        // Read selected ingredients directly from checkboxes
-        const selectedIngredients = Array.from(
-            ingredientFilters.querySelectorAll(".ingredient-filter:checked")
-        ).map(function (checkbox) {
-            return checkbox.value;
-        });
+        const selectedIngredients = ingredientSearch.value
+            .toLowerCase()
+            .split(",")
+            .map(function (ingredient) {
+                return ingredient.trim();
+            })
+            .filter(Boolean);
 
         recipeCards.forEach(function (card) {
 
-            const title = card.dataset.title.toLowerCase();
-            const keywords = card.dataset.keywords.toLowerCase();
-            const ingredients = card.dataset.ingredients.split(",");
+            const title = (card.dataset.title || "").toLowerCase();
+            const keywords = (card.dataset.keywords || "").toLowerCase();
+
+            const ingredients = (card.dataset.ingredients || "")
+                .toLowerCase()
+                .split(",")
+                .map(function (ingredient) {
+                    return ingredient.trim();
+                })
+                .filter(Boolean);
 
             const matchesSearch =
                 !search ||
@@ -27,8 +36,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 keywords.includes(search);
 
             const matchesIngredients = selectedIngredients.every(
-                function (ingredient) {
-                    return ingredients.includes(ingredient);
+                function (searchIngredient) {
+                    return ingredients.some(function (recipeIngredient) {
+                        return recipeIngredient.includes(searchIngredient);
+                    });
                 }
             );
 
@@ -39,19 +50,24 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Search recipes
-    searchInput.addEventListener("input", filterRecipes);
+    if (searchInput) {
+        searchInput.addEventListener("input", filterRecipes);
+    }
 
-    // Ingredient checkbox selection
-    ingredientFilters.addEventListener("change", function (event) {
-        if (!event.target.matches(".ingredient-filter")) {
-            return;
-        }
+    if (ingredientSearch) {
+        ingredientSearch.addEventListener("input", filterRecipes);
+    }
 
-        filterRecipes();
-    });
+    if (ingredientFilters) {
+        ingredientFilters.addEventListener("change", function (event) {
+            if (!event.target.matches(".ingredient-filter")) {
+                return;
+            }
 
-    // Recipe overview modal
+            filterRecipes();
+        });
+    }
+
     document.querySelectorAll(".recipe-card-clickable").forEach(function (card) {
 
         function openRecipe() {
