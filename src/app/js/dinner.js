@@ -31,28 +31,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     searchInput.addEventListener("input", filterRecipes);
-
     ingredientFilters.addEventListener("click", function (event) {
         const button = event.target.closest(".ingredient-filter");
-
+    
         if (!button) return;
-
+    
         const ingredient = button.dataset.ingredient;
-
+    
         if (selectedIngredients.has(ingredient)) {
             selectedIngredients.delete(ingredient);
-            button.classList.remove("active");
-            button.setAttribute("aria-pressed", "false");
         } else {
             selectedIngredients.add(ingredient);
-            button.classList.add("active");
-            button.setAttribute("aria-pressed", "true");
         }
-
+    
         filterRecipes();
-        this.blur();
     });
-
 
     document.querySelectorAll(".recipe-card-clickable").forEach(function (card) {
 
