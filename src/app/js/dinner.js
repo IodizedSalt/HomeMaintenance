@@ -23,13 +23,13 @@ document.addEventListener("DOMContentLoaded", function () {
             const keywords = (card.dataset.keywords || "").toLowerCase();
 
             const ingredients = (card.dataset.ingredients || "")
-                .toLowerCase()
-                .split(",")
-                .map(function (ingredient) {
-                    return ingredient.trim();
-                })
-                .filter(Boolean);
-
+            .toLowerCase()
+            .split(",")
+            .map(function (ingredient) {
+                return ingredient.trim().replace(/[_\s]+/g, " ");
+            })
+            .filter(Boolean);
+            
             const matchesSearch =
                 !search ||
                 title.includes(search) ||
