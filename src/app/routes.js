@@ -26,7 +26,7 @@ router.get("/piesku", function (req, res) {
 });
 
 
-
+// recipes/dinner
 router.get("/dinner", function (req, res) {
     const dictionaryPath = path.join(
         __dirname,
@@ -46,6 +46,40 @@ router.get("/dinner", function (req, res) {
         }
     );
 });
+
+// specific recipe new page
+router.get("/dinner/recipe/:title", function (req, res) {
+
+    const recipeFile = req.params.title.toLowerCase() + ".json";
+
+    const recipePath = path.join(
+        __dirname,
+        "data/dinner/recipes",
+        recipeFile
+    );
+    console.log(recipePath)
+    if (!fs.existsSync(recipePath)) {
+        return res.status(404).send("Recipe not found");
+    }
+
+
+    const recipeData = JSON.parse(
+        fs.readFileSync(recipePath, "utf8")
+    );
+    const recipeTitle = Object.keys(recipeData)[0];
+    const recipe = recipeData[recipeTitle];
+
+
+    res.render(
+        path.join(__dirname, "html/dinner/recipe_overview.ejs"),
+        {
+            env_type: env_type,
+            recipe: recipe,
+            recipeTitle: recipeTitle
+        }
+    );
+});
+
 // notepad
 router.get("/notepad", function (req, res) {
     res.render(__dirname + '/html/notepad.ejs', {env_type});

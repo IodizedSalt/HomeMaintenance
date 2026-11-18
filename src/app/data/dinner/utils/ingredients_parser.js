@@ -137,6 +137,9 @@ function buildDictionary() {
                 recipes.push({
                     title: title,
                     keywords: recipe.keywords,
+                    category: recipe.category,
+                    cooking_time: recipe.cooking_time,
+                    portion_size: recipe.portion_size,
                     ingredients: recipe.ingredients_list,
                     recipe_ingredients: recipe.recipe_ingredients,
                     ingredients_list: recipe.ingredients_list,
@@ -164,7 +167,6 @@ function buildDictionary() {
         });
     });
 
-    // Most frequently occurring ingredients first.
     const ingredients = Array.from(ingredientMap.values())
         .map(function (entry) {
             entry.recipes.sort();

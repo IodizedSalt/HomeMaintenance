@@ -2,7 +2,9 @@
     "Tabbouleh":{
         "image": "/app/images/recipes/tabbouleh.jpg",
         "category": ["side_dish", "dinner"],
-
+        "cooking_time": "??",
+        "portion_size": "??",
+        "comments": ["Bardzo dobzre przypis -- Pawel, Poznan"],
             "keywords":
             [
                 "tabullah",

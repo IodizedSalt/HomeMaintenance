@@ -1,65 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
 
-<div class="modal fade"
-id="recipe-overview-modal-<%= recipe.title %>"
-tabindex="-1"
-aria-labelledby="recipe-overview-title-<%= recipe.title %>"
-aria-hidden="true">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= recipe.title %> - Vedersøvej 26</title>
 
-<div class="modal-dialog modal-lg modal-dialog-scrollable">
-   <div class="modal-content">
+    <link href="/app/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="/app/css/custom_css.css" rel="stylesheet">
+</head>
 
-       <div class="modal-header">
-           <h2 class="modal-title fs-4"
-               id="recipe-overview-title-<%= recipe.title %>">
-               <%= recipe.title %>
-           </h2>
+<body>
 
-           <button type="button"
-                   class="btn-close"
-                   data-bs-dismiss="modal"
-                   aria-label="Close">
-           </button>
-       </div>
+    <a href="/dinner">
+        <img src="/app/img/misc/android-chrome-512x512.png"
+             style="max-width: 50px; margin: 2em;"
+             alt="Home"
+             class="home-icon">
+    </a>
 
-       <div class="modal-body">
+    <div class="container my-4">
 
-           <% if (recipe.image) { %>
-               <img src="<%= recipe.image %>"
-                    class="img-fluid rounded mb-4 w-100"
-                    alt="<%= recipe.title %>">
-           <% } %>
+        <h2 class="mb-4"><%= recipeTitle %></h2>
 
-           <h5>Ingredients</h5>
+        <% if (recipe.image) { %>
+            <img src="<%= recipe.image %>"
+                 class="img-fluid rounded mb-4 w-100"
+                 alt="<%= recipe.title %>"
+                 style="max-height: 450px; object-fit: cover;">
+        <% } %>
 
-           <% if (recipe.recipe_ingredients && recipe.recipe_ingredients.length) { %>
-               <ul>
-                   <% recipe.recipe_ingredients.forEach(function(ingredient) { %>
-                       <li><%= ingredient %></li>
-                   <% }); %>
-               </ul>
-           <% } else { %>
-               <p>No ingredients available.</p>
-           <% } %>
+        <div class="row">
 
-           <hr>
+            <div class="col-md-4 mb-4">
+                <h5>Ingredients</h5>
 
-           <h5>Instructions</h5>
+                <% if (recipe.recipe_ingredients && recipe.recipe_ingredients.length) { %>
+                    <ul>
+                        <% recipe.recipe_ingredients.forEach(function(ingredient) { %>
+                            <li><%= ingredient %></li>
+                        <% }); %>
+                    </ul>
+                <% } else { %>
+                    <p>No ingredients available.</p>
+                <% } %>
+            </div>
 
-           <% if (recipe.recipe_steps) { %>
-               <ol>
-                   <% Object.keys(recipe.recipe_steps)
-                       .sort(function(a, b) { return Number(a) - Number(b); })
-                       .forEach(function(step) { %>
-                           <li class="mb-2">
-                               <%= recipe.recipe_steps[step] %>
-                           </li>
-                   <% }); %>
-               </ol>
-           <% } else { %>
-               <p>No instructions available.</p>
-           <% } %>
+            <div class="col-md-8">
+                <h5>Instructions</h5>
 
-       </div>
-   </div>
-</div>
-</div>
+                <% if (recipe.recipe_steps) { %>
+                    <ol>
+                        <% Object.keys(recipe.recipe_steps)
+                            .sort(function(a, b) { return Number(a) - Number(b); })
+                            .forEach(function(step) { %>
+                                <li class="mb-3">
+                                    <%= recipe.recipe_steps[step] %>
+                                </li>
+                        <% }); %>
+                    </ol>
+                <% } else { %>
+                    <p>No instructions available.</p>
+                <% } %>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-11-18T16:10:01.735Z",
+    "generated_at": "2026-11-18T16:54:34.213Z",
     "recipe_count": 2,
     "ingredient_count": 21,
     "ingredients": [
@@ -187,6 +187,11 @@
                 "medara",
                 "madara"
             ],
+            "category": [
+                "dinner"
+            ],
+            "cooking_time": "??",
+            "portion_size": "??",
             "ingredients": [
                 "lentils",
                 "onion",
@@ -267,6 +272,12 @@
                 "tabola",
                 "tabboulah"
             ],
+            "category": [
+                "side_dish",
+                "dinner"
+            ],
+            "cooking_time": "??",
+            "portion_size": "??",
             "ingredients": [
                 "couscous",
                 "onion",

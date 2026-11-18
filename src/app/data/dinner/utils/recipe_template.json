@@ -1,5 +1,10 @@
 {
     "dinner_title":{
+        "image": "/app/images/recipes/mejadra.jpg",
+        "category": [],
+        "cooking_time": "",
+        "portion_size": "",
+        "comments": [],
             "keywords":
             [
                 "",
@@ -25,7 +30,7 @@
                "",
                ""
             ],
-            "recipe":
+            "recipe_steps":
             {
                 "1": "",
                 "2": "",

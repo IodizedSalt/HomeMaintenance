@@ -1,6 +1,10 @@
 {
     "Mejadra":{
         "image": "/app/images/recipes/mejadra.jpg",
+        "category": ["dinner"],
+        "cooking_time": "??",
+        "portion_size": "??",
+        "comments": [],
         "keywords":
         [
             "mejadra",

@@ -9,7 +9,16 @@ document.addEventListener("DOMContentLoaded", function () {
     function filterRecipes() {
         const search = searchInput.value.toLowerCase().trim();
 
-        const selectedIngredients = ingredientSearch.value
+        // Ingredient button selection
+        const selectedIngredients = Array.from(
+            document.querySelectorAll(".ingredient-filter:checked")
+            ).map(function (checkbox) {
+                return checkbox.value
+                    .toLowerCase()
+                    .trim()
+                    .replace(/[_\s]+/g, " ");
+            });
+        const searchedIngredients = ingredientSearch.value
             .toLowerCase()
             .split(",")
             .map(function (ingredient) {
@@ -29,23 +38,28 @@ document.addEventListener("DOMContentLoaded", function () {
                 return ingredient.trim().replace(/[_\s]+/g, " ");
             })
             .filter(Boolean);
-            
+
             const matchesSearch =
                 !search ||
                 title.includes(search) ||
                 keywords.includes(search);
 
-            const matchesIngredients = selectedIngredients.every(
+            const matchesSearchedIngredients = searchedIngredients.every(
                 function (searchIngredient) {
                     return ingredients.some(function (recipeIngredient) {
                         return recipeIngredient.includes(searchIngredient);
                     });
                 }
             );
+            const matchesSelectedIngredients = selectedIngredients.every(
+                function (ingredient) {
+                    return ingredients.includes(ingredient);
+                }
+            );
 
             card.classList.toggle(
                 "d-none",
-                !(matchesSearch && matchesIngredients)
+                !(matchesSearch && matchesSearchedIngredients && matchesSelectedIngredients)
             );
         });
     }
@@ -74,13 +88,18 @@ document.addEventListener("DOMContentLoaded", function () {
             const recipeCard = card.closest(".recipe-card");
             const title = recipeCard.dataset.recipeTitle;
 
-            const modal = document.getElementById(
-                "recipe-overview-modal-" + title
-            );
+            // const modal = document.getElementById(
+            //     "recipe-overview-modal-" + title
+            // );
 
-            if (modal) {
-                bootstrap.Modal.getOrCreateInstance(modal).show();
-            }
+            // if (modal) {
+            //     bootstrap.Modal.getOrCreateInstance(modal).show();
+            // }
+
+            window.open(
+                "/routes/dinner/recipe/" + encodeURIComponent(title),
+                "_blank"
+            );        
         }
 
         card.addEventListener("click", openRecipe);
