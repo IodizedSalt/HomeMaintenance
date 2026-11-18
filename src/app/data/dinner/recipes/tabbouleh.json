@@ -1,0 +1,52 @@
+{
+    "Tabbouleh":{
+        "image": "/app/images/recipes/tabbouleh.jpg",
+        "category": ["side_dish", "dinner"],
+
+            "keywords":
+            [
+                "tabullah",
+                "taboullah",
+                "tabulah",
+                "tabula",
+                "taboulah",
+                "taboula",
+                "tabola",
+                "tabboulah"
+            ],
+            "recipe_ingredients":[
+                "Couscous",
+                "Onion",
+                "Paprik",
+                "Parsley",
+                "Mint",
+                "Lemon",
+                "Champignons",
+                "Halloumi",
+                "Tomato",
+                "Olive oil",
+                ""
+            ],
+            "ingredients_list":
+            [
+               "couscous",
+                "onion",
+                "paprik",
+                "parsley",
+                "mint",
+                "lemon",
+                "champignons",
+                "halloumi",
+                "tomato",
+               "olive_oil"
+            ],
+            "recipe_steps":
+            {
+                "1": "Fry all vegetables separately",
+                "2": "Prepare couscous meanwhile",
+                "3": "Mix together all fried vegetables and couscous",
+                "4": "Drizzle lemon juice and mix in fresh, chopped herbs",
+                "5": "Smacznego"
+            }
+        }
+}

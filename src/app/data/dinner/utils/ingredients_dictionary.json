@@ -1,14 +1,40 @@
 {
-    "generated_at": "2026-11-17T14:07:13.882Z",
-    "recipe_count": 1,
-    "ingredient_count": 13,
+    "generated_at": "2026-11-18T16:10:01.735Z",
+    "recipe_count": 2,
+    "ingredient_count": 21,
     "ingredients": [
+        {
+            "id": "olive_oil",
+            "label": "Olive Oil",
+            "count": 2,
+            "recipes": [
+                "Mejadra",
+                "Tabbouleh"
+            ]
+        },
+        {
+            "id": "onion",
+            "label": "Onion",
+            "count": 2,
+            "recipes": [
+                "Mejadra",
+                "Tabbouleh"
+            ]
+        },
         {
             "id": "allspice",
             "label": "Allspice",
             "count": 1,
             "recipes": [
                 "Mejadra"
+            ]
+        },
+        {
+            "id": "champignons",
+            "label": "Champignons",
+            "count": 1,
+            "recipes": [
+                "Tabbouleh"
             ]
         },
         {
@@ -28,6 +54,14 @@
             ]
         },
         {
+            "id": "couscous",
+            "label": "Couscous",
+            "count": 1,
+            "recipes": [
+                "Tabbouleh"
+            ]
+        },
+        {
             "id": "cumin_seed",
             "label": "Cumin Seed",
             "count": 1,
@@ -44,6 +78,22 @@
             ]
         },
         {
+            "id": "halloumi",
+            "label": "Halloumi",
+            "count": 1,
+            "recipes": [
+                "Tabbouleh"
+            ]
+        },
+        {
+            "id": "lemon",
+            "label": "Lemon",
+            "count": 1,
+            "recipes": [
+                "Tabbouleh"
+            ]
+        },
+        {
             "id": "lentils",
             "label": "Lentils",
             "count": 1,
@@ -52,19 +102,27 @@
             ]
         },
         {
-            "id": "olive_oil",
-            "label": "Olive Oil",
+            "id": "mint",
+            "label": "Mint",
             "count": 1,
             "recipes": [
-                "Mejadra"
+                "Tabbouleh"
             ]
         },
         {
-            "id": "onion",
-            "label": "Onion",
+            "id": "paprik",
+            "label": "Paprik",
             "count": 1,
             "recipes": [
-                "Mejadra"
+                "Tabbouleh"
+            ]
+        },
+        {
+            "id": "parsley",
+            "label": "Parsley",
+            "count": 1,
+            "recipes": [
+                "Tabbouleh"
             ]
         },
         {
@@ -89,6 +147,14 @@
             "count": 1,
             "recipes": [
                 "Mejadra"
+            ]
+        },
+        {
+            "id": "tomato",
+            "label": "Tomato",
+            "count": 1,
+            "recipes": [
+                "Tabbouleh"
             ]
         },
         {
@@ -188,6 +254,65 @@
             },
             "image": "/app/images/recipes/mejadra.jpg",
             "filename": "mejadra.json"
+        },
+        {
+            "title": "Tabbouleh",
+            "keywords": [
+                "tabullah",
+                "taboullah",
+                "tabulah",
+                "tabula",
+                "taboulah",
+                "taboula",
+                "tabola",
+                "tabboulah"
+            ],
+            "ingredients": [
+                "couscous",
+                "onion",
+                "paprik",
+                "parsley",
+                "mint",
+                "lemon",
+                "champignons",
+                "halloumi",
+                "tomato",
+                "olive_oil"
+            ],
+            "recipe_ingredients": [
+                "Couscous",
+                "Onion",
+                "Paprik",
+                "Parsley",
+                "Mint",
+                "Lemon",
+                "Champignons",
+                "Halloumi",
+                "Tomato",
+                "Olive oil",
+                ""
+            ],
+            "ingredients_list": [
+                "couscous",
+                "onion",
+                "paprik",
+                "parsley",
+                "mint",
+                "lemon",
+                "champignons",
+                "halloumi",
+                "tomato",
+                "olive_oil"
+            ],
+            "recipe_steps": {
+                "1": "Fry all vegetables separately",
+                "2": "Prepare couscous meanwhile",
+                "3": "Mix together all fried vegetables and couscous",
+                "4": "Drizzle lemon juice and mix in fresh, chopped herbs",
+                "5": "Smacznego"
+            },
+            "image": "/app/images/recipes/tabbouleh.jpg",
+            "filename": "tabbouleh.json"
         }
     ]
 }

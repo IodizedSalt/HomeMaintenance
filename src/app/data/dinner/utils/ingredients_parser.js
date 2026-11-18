@@ -11,12 +11,12 @@ const path = require("path");
 
 const recipesDir = path.resolve(
     process.cwd(),
-    "src/app/data/dinner/recipes"
+    "dinner/recipes"
 );
 
 const outputFile = path.resolve(
     process.cwd(),
-    "src/app/data/dinner/utils/ingredients_dictionary.json"
+    "dinner/utils/ingredients_dictionary.json"
 );
 
 
